@@ -1,0 +1,120 @@
+@import "tailwindcss";
+
+/* -------------------------------------------------------------
+   TRAZA — Sistema de diseño
+   Ingeniería & Infraestructura (concepto colombiano)
+   ------------------------------------------------------------- */
+
+@theme {
+  /* Colores de marca */
+  --color-grafito: #20272D;
+  --color-concreto: #F3F1EB;
+  --color-naranja: #F07835;
+  --color-verde: #64766A;
+  --color-blanco: #FFFFFF;
+
+  /* Semántica sobre la paleta */
+  --color-ink: #20272D;
+  --color-surface: #F3F1EB;
+  --color-surface-alt: #FFFFFF;
+  --color-accent: #F07835;
+  --color-accent-secondary: #64766A;
+
+  /* Tipografía */
+  --font-sans: var(--font-inter);
+  --font-mono: var(--font-geist-mono);
+  --font-display: var(--font-inter);
+}
+
+:root {
+  --background: #F3F1EB;
+  --foreground: #20272D;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  font-feature-settings: "tnum" 1, "lnum" 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Respeto a movimiento reducido */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Números técnicos: alineación de ancho fijo */
+.td-num {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1;
+}
+
+/* Líneas reticulares / señalización técnica (usadas con moderación) */
+.reticle {
+  position: relative;
+  overflow: hidden;
+}
+.reticle::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(32, 39, 45, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(32, 39, 45, 0.06) 1px, transparent 1px);
+  background-size: 24px 24px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Coordenada / cota decorativa */
+.cota {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.5rem;
+}
+.cota-line {
+  flex: 1;
+  height: 1px;
+  background: currentColor;
+  opacity: 0.35;
+}
+.cota-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  flex-shrink: 0;
+}
+
+/* Utilidades de apariencia técnica */
+.border-grafito { border-color: #20272D; }
+.border-naranja { border-color: #F07835; }
+.border-verde { border-color: #64766A; }
+.bg-grafito { background-color: #20272D; }
+.bg-concreto { background-color: #F3F1EB; }
+.bg-naranja { background-color: #F07835; }
+.bg-verde { background-color: #64766A; }
+.text-grafito { color: #20272D; }
+.text-concreto { color: #F3F1EB; }
+.text-naranja { color: #F07835; }
+.text-verde { color: #64766A; }
+
+/* Suavizado de imágenes para evitar saltos de layout */
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
