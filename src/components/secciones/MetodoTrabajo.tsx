@@ -3,8 +3,8 @@
 import { SectionTitle } from "@/components/SectionTitle";
 
 /**
- * Método de trabajo: cinco etapas representadas sobre una retícula técnica.
- * Metodología conceptual, no garantía contractual universal.
+ * Método de trabajo: cinco etapas representadas sobre una secuencia técnica
+ * con línea de conexión. Metodología conceptual, no garantía contractual universal.
  */
 
 const ETAPAS = [
@@ -43,20 +43,19 @@ export function MetodoTrabajo() {
           etiqueta="Proceso"
           title="Método de trabajo."
           description={
-            "Cinco etapas representadas sobre una retícula técnica. Se describe como metodología conceptual, no como garantía contractual universal."
+            "Cinco etapas representadas sobre una secuencia técnica con línea de conexión. Se describe como metodología conceptual, no como garantía contractual universal."
           }
         />
 
-        {/* Retícula de fondo sutil */}
-        <div className="relative reticle -mt-8 md:-mt-12 mb-8 md:mb-12 lg:mb-16 overflow-hidden">
-          <div className="relative z-10 grid grid-cols-1 md:grid-cols-5 gap-6 lg:gap-10">
+        <div className="relative linea-conexion mt-8 md:mt-12 mb-12 lg:mb-16">
+          <div className="grid grid-cols-1 md:grid-cols-5 gap-6 lg:gap-10 z-10">
             {ETAPAS.map((etapa) => (
               <article
                 key={etapa.num}
                 className="flex flex-col items-center gap-4"
               >
                 {/* Número de etapa */}
-                <div className="relative z-10 flex h-14 w-14 items-center justify-center rounded-full bg-white border border-naranja text-naranja font-black text-xl font-mono shadow-sm">
+                <div className="relative z-10 flex h-14 w-14 items-center justify-center rounded-full bg-white border-2 border-naranja text-naranja font-black text-xl font-mono shadow-md">
                   {etapa.num}
                 </div>
                 <h3 className="text-grafito font-bold text-sm md:text-base tracking-wide uppercase text-center">
@@ -65,15 +64,9 @@ export function MetodoTrabajo() {
                 <p className="mt-2 text-[0.85rem] leading-6 text-grafito/60 text-center max-w-xs">
                   {etapa.text}
                 </p>
-                {/* Conector entre etapas (excepto la última) */}
-                {etapa.num !== "05" && (
-                  <div className="mt-2 h-[1px] w-8 bg-grafito/30" />
-                )}
               </article>
             ))}
           </div>
-          {/* Línea horizontal de la retícula */}
-          <div className="absolute left-0 right-0 top-1/2 -translate-y-1/2 h-[1px] bg-grafito/20 -z-10" />
         </div>
 
         <p className="text-[0.8rem] text-grafito/50 max-w-md">

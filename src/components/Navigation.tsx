@@ -68,7 +68,15 @@ export function Navigation() {
     return () => document.removeEventListener("keydown", onKeyDown);
   }, [isOpen, closeMenu]);
 
-  const isMobileMenu = typeof window !== "undefined" && window.innerWidth < 768;
+  // Detecta cambio de tamaño para mostrar/ocultar menú móvil sin problemas de hidratación
+  const [isMobileMenu, setIsMobileMenu] = useState<boolean | null>(null);
+
+  useEffect(() => {
+    const check = () => setIsMobileMenu(window.innerWidth < 768);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
 
   return (
     <nav

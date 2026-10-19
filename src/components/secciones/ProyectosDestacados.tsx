@@ -5,10 +5,12 @@ import { proyectos } from "@/data/proyectos";
 /**
  * Sección editorial de proyectos destacados.
  * "Obras pensadas para durar."
+ * Composición asimétrica: el primero ocupa mayor jerarquía visual.
  */
 
 export function ProyectosDestacados() {
   const destacados = proyectos.filter((p) => p.featured);
+  const [primero, ...restantes] = destacados;
 
   return (
     <section id="proyectos" className="bg-concreto py-20 md:py-28 lg:py-36">
@@ -21,10 +23,18 @@ export function ProyectosDestacados() {
           }
         />
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
-          {destacados.map((proyecto) => (
-            <ProjectCard key={proyecto.slug} proyecto={proyecto} />
-          ))}
+        <div className="space-y-12 lg:space-y-16">
+          {primero && (
+            <div className="mb-12 lg:mb-0">
+              <ProjectCard proyecto={primero} destacado />
+            </div>
+          )}
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
+            {restantes.map((proyecto) => (
+              <ProjectCard key={proyecto.slug} proyecto={proyecto} />
+            ))}
+          </div>
         </div>
 
         <p className="mt-10 text-[0.8rem] text-grafito/50 max-w-md">

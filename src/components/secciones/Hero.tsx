@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 /**
  * Hero de impacto para TRAZA.
  * Composición editorial: tipografía + fotografía de infraestructura de gran escala.
- * Evita el aspecto de plantilla SaaS.
+ * La fotografía es protagonista en todos los tamaños de pantalla.
  */
 
 const SCROLL_HINT = "Desplazar";
@@ -17,7 +17,7 @@ export function Hero() {
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 40);
+    const onScroll = () => setScrolled(window.scrollY > 60);
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
@@ -27,23 +27,20 @@ export function Hero() {
       className="relative bg-grafito text-blanco"
       aria-labelledby="hero-titular"
     >
-      {/* Detalle gráfico técnico discreto: retícula suave en la esquina superior derecha */}
-      <div className="absolute inset-0 z-0 pointer-events-none">
-        <div className="absolute top-0 right-0 w-[60vw] h-[60vw] bg-naranja/5 rounded-full blur-[100px] -translate-x-1/2 -translate-y-1/2" />
-        <div className="relative reticle z-0" />
-      </div>
+      {/* Detalle gráfico técnico discreto: retícula en esquina superior derecha */}
+      <div className="absolute top-0 right-0 w-[40vw] h-[40vw] reticle -translate-x-1/4 -translate-y-1/4 pointer-events-none" />
 
-      <div className="relative z-10 mx-auto max-w-72 px-4 sm:px-6 lg:px-8 pt-20 md:pt-28 pb-24 md:pb-32 lg:pb-40">
-        <div className="grid lg:grid-cols-2 lg:gap-12 items-center">
+      <div className="relative z-10 mx-auto max-w-72 px-4 sm:px-6 lg:px-8">
+        <div className="grid lg:grid-cols-2 lg:gap-12 items-center min-h-[85vh]">
           {/* Contenido tipográfico */}
-          <div className="lg:pr-10">
-            <span className="inline-flex items-center gap-1.5 rounded-full bg-naranja/15 px-3 py-1 text-[0.7rem] font-bold text-naranja tracking-wider uppercase mb-6 block">
+          <div className="lg:pr-12 pt-12 lg:pt-0 pb-12 lg:pb-0">
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-naranja/15 px-3 py-1.5 text-[0.7rem] font-bold text-naranja tracking-wider uppercase mb-8 block">
               Ingeniería civil · Colombia
             </span>
 
             <h1
               id="hero-titular"
-              className="text-grafito font-black tracking-tight leading-[1.05] text-4xl md:text-6xl lg:text-7xl text-blanco mb-6"
+              className="text-grafito font-black tracking-tight leading-[1.02] text-4xl md:text-6xl lg:text-7xl text-blanco mb-8"
             >
               Infraestructura que conecta.<br />
               <span className="text-naranja">Ingeniería que transforma.</span>
@@ -73,19 +70,20 @@ export function Hero() {
             </div>
           </div>
 
-          {/* Fotografía protagonista */}
-          <div className="relative hidden lg:block">
-            <div className="relative h-[70vh] min-h-[560px] rounded-[2px] border border-concreto/20 overflow-hidden shadow-2xl">
+          {/* Fotografía protagonista — visible en todos los tamaños */}
+          <div className="relative lg:min-h-[60vh] min-h-[480px] flex flex-col justify-end">
+            <div className="relative w-full h-full rounded-[3px] border border-concreto/20 overflow-hidden shadow-2xl">
               <Image
                 src="https://images.unsplash.com/photo-1764449321531-a5f6a42c5d12?fm=jpg&q=60&w=2000&auto=format&fit=crop"
                 alt="Estructura de concreto de gran escala, viaducto moderno contra cielo despejado"
                 fill
-                sizes="100vw"
+                sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 45vw"
                 className="object-cover object-center"
                 priority
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-grafito/90 via-grafito/40 to-transparent" />
-              <div className="absolute bottom-6 left-6 right-6 flex justify-between items-end pointer-events-none">
+              {/* Sobrelay inferior para legibilidad del texto sobre la foto */}
+              <div className="absolute inset-x-0 bottom-0 h-[40%] bg-gradient-to-t from-grafito/95 via-grafito/60 to-transparent" />
+              <div className="absolute bottom-6 left-6 right-6 flex justify-between items-end pointer-events-none z-10">
                 <div className="flex flex-col gap-1">
                   <span className="text-[0.7rem] font-bold text-concreto/70 tracking-wider uppercase">
                     Protagonista
@@ -106,9 +104,8 @@ export function Hero() {
       {/* Indicador de desplazamiento */}
       {!scrolled && (
         <div
-          className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-2 animate-bounce"
-          style={{ animationDuration: "1.2s" }}
-          aria-hidden="true"
+          className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-2"
+          role="none"
         >
           <span className="text-[0.65rem] font-bold text-concreto/50 tracking-widest uppercase">
             {SCROLL_HINT}

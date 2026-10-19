@@ -9,7 +9,13 @@ export const metadata: Metadata = {
     "Contacta a TRAZA Ingeniería & Infraestructura a través del formulario. Concepto de ingeniería civil colombiana.",
 };
 
-export default function ContactoPage() {
+export default function ContactoPage({
+  searchParams,
+}: {
+  searchParams: { [key: string]: string | string[] | undefined };
+}) {
+  const servicio = typeof searchParams.servicio === "string" ? searchParams.servicio : undefined;
+
   return (
     <section className="bg-white py-20 md:py-28 lg:py-36 border-y border-grafito/10">
       <div className="mx-auto max-w-48 px-4 sm:px-6 lg:px-8">
@@ -20,7 +26,7 @@ export default function ContactoPage() {
             "Envíanos tu necesidad y coordinamos una conversación técnica. Formulario a nivel de interfaz; el envío real requiere conectar un servicio de correo o CRM."
           }
         />
-        <ContactForm />
+        <ContactForm searchParamsServicio={servicio} />
 
         <div className="mt-16 md:mt-20 rounded-[2px] border border-grafito/15 bg-concreto p-8 md:p-12 shadow-sm">
           <h3 className="font-bold text-grafito text-lg tracking-tight mb-4">

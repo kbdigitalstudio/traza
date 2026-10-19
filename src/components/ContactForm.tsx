@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { Button, cn } from "@/components/ui/button";
+import { servicioPorSlug } from "@/data/servicios";
 
 type FormData = {
   nombre: string;
@@ -15,14 +16,27 @@ type FormData = {
 
 type FormState = "idle" | "sending" | "success" | "error";
 
-export function ContactForm() {
+type ContactFormProps = {
+  /** Slug del servicio enviado desde la página (Server Component) para precargar el formulario. */
+  searchParamsServicio?: string;
+};
+
+export function ContactForm({
+  searchParamsServicio,
+}: ContactFormProps) {
+  // Deriva el servicio desde el parámetro de URL sin efectos secundarios.
+  const servicioDesdeURL = searchParamsServicio
+    ? servicioPorSlug(searchParamsServicio)
+    : null;
+  const servicioSeleccionado = servicioDesdeURL?.title ?? null;
+
   const [state, setState] = useState<FormState>("idle");
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [formData, setFormData] = useState<FormData>({
     nombre: "",
     email: "",
     empresa: "",
-    tipoProyecto: "",
+    tipoProyecto: servicioDesdeURL ? servicioDesdeURL.title : "",
     ubicacion: "",
     mensaje: "",
   });
@@ -65,7 +79,7 @@ export function ContactForm() {
   return (
     <>
       {state === "success" ? (
-        <div className="rounded-[2px] border border-naranja/30 bg-naranja/5 p-8 md:p-12 shadow-sm" role="status" aria-live="polite">
+        <div className="rounded-[3px] border border-naranja/30 bg-naranja/5 p-8 md:p-12 shadow-sm" role="status" aria-live="polite">
           <h2 className="font-bold text-naranja text-xl tracking-tight mb-3">
             Mensaje recibido
           </h2>
@@ -89,6 +103,16 @@ export function ContactForm() {
           noValidate
           aria-label="Formulario de contacto"
         >
+          {servicioSeleccionado && (
+            <div className="rounded-md bg-naranja/10 p-4 border border-naranja/20">
+              <p className="text-[0.8rem] text-naranja font-medium mb-1">
+                Solicitud de cotización:
+              </p>
+              <p className="text-[0.9rem] text-grafito/70 font-semibold">
+                {servicioSeleccionado}
+              </p>
+            </div>
+          )}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <TextField
               label="Nombre completo"

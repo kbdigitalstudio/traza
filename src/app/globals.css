@@ -72,9 +72,9 @@ body {
   position: absolute;
   inset: 0;
   background-image:
-    linear-gradient(rgba(32, 39, 45, 0.06) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(32, 39, 45, 0.06) 1px, transparent 1px);
-  background-size: 24px 24px;
+    linear-gradient(rgba(32, 39, 45, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(32, 39, 45, 0.05) 1px, transparent 1px);
+  background-size: 28px 28px;
   pointer-events: none;
   z-index: 0;
 }
@@ -117,4 +117,37 @@ img {
   display: block;
   max-width: 100%;
   height: auto;
+}
+
+/* Línea vertical de conexión técnica */
+.linea-conexion {
+  position: relative;
+}
+.linea-conexion::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: #20272D;
+  opacity: 0.25;
+  z-index: 0;
+}
+
+/* Punta de flecha técnica para indicadores */
+.punta {
+  position: relative;
+}
+.punta::after {
+  content: "";
+  position: absolute;
+  right: -0.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 0;
+  height: 0;
+  border-left: 0.4rem solid transparent;
+  border-right: 0.4rem solid transparent;
+  border-top: 0.4rem solid currentColor;
 }
