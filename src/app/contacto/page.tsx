@@ -18,7 +18,7 @@ export default function ContactoPage({
   const servicio = typeof searchParams.servicio === "string" ? searchParams.servicio : undefined;
 
   return (
-    <section className="bg-white py-20 md:py-28 lg:py-36 border-y border-grafito/10">
+    <section className="bg-white py-16 md:py-20 lg:py-24 border-y border-grafito/10">
       <Container>
         <SectionTitle
           etiqueta="Contacto"
@@ -29,13 +29,13 @@ export default function ContactoPage({
         />
         <ContactForm searchParamsServicio={servicio} />
 
-        <div className="mt-16 md:mt-20 rounded-[2px] border border-grafito/15 bg-concreto p-8 md:p-12 shadow-sm">
-          <h3 className="font-bold text-grafito text-lg tracking-tight mb-4">
+        <div className="mt-12 md:mt-16 rounded-md border border-grafito/15 bg-concreto p-6 md:p-10">
+          <h3 className="font-bold text-grafito text-lg tracking-tight mb-3">
             Canales de contacto
           </h3>
           <ul className="space-y-3 text-grafito/60 text-lg leading-7">
             <li className="flex items-start gap-3">
-              <span className="shrink-0 text-[0.85rem] font-mono text-naranja">
+              <span className="shrink-0 text-[0.8rem] font-mono text-naranja">
                 Formulario
               </span>
               <span>
@@ -43,7 +43,7 @@ export default function ContactoPage({
               </span>
             </li>
             <li className="flex items-start gap-3">
-              <span className="shrink-0 text-[0.85rem] font-mono text-grafito/50">
+              <span className="shrink-0 text-[0.8rem] font-mono text-grafito/50">
                 WhatsApp
               </span>
               <span className="text-grafito/60">

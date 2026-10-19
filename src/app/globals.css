@@ -74,51 +74,11 @@ body {
   position: absolute;
   inset: 0;
   background-image:
-    linear-gradient(rgba(32, 39, 45, 0.05) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(32, 39, 45, 0.05) 1px, transparent 1px);
-  background-size: 28px 28px;
+    linear-gradient(rgba(32, 39, 45, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(32, 39, 45, 0.04) 1px, transparent 1px);
+  background-size: 32px 32px;
   pointer-events: none;
   z-index: 0;
-}
-
-/* Coordenada / cota decorativa */
-.cota {
-  display: inline-flex;
-  align-items: baseline;
-  gap: 0.5rem;
-}
-.cota-line {
-  flex: 1;
-  height: 1px;
-  background: currentColor;
-  opacity: 0.35;
-}
-.cota-dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: currentColor;
-  flex-shrink: 0;
-}
-
-/* Utilidades de apariencia técnica */
-.border-grafito { border-color: #20272D; }
-.border-naranja { border-color: #F07835; }
-.border-verde { border-color: #64766A; }
-.bg-grafito { background-color: #20272D; }
-.bg-concreto { background-color: #F3F1EB; }
-.bg-naranja { background-color: #F07835; }
-.bg-verde { background-color: #64766A; }
-.text-grafito { color: #20272D; }
-.text-concreto { color: #F3F1EB; }
-.text-naranja { color: #F07835; }
-.text-verde { color: #64766A; }
-
-/* Suavizado de imágenes para evitar saltos de layout */
-img {
-  display: block;
-  max-width: 100%;
-  height: auto;
 }
 
 /* Línea vertical de conexión técnica */
@@ -133,23 +93,13 @@ img {
   bottom: 0;
   width: 1px;
   background: #20272D;
-  opacity: 0.25;
+  opacity: 0.15;
   z-index: 0;
 }
 
-/* Punta de flecha técnica para indicadores */
-.punta {
-  position: relative;
-}
-.punta::after {
-  content: "";
-  position: absolute;
-  right: -0.5rem;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 0;
-  height: 0;
-  border-left: 0.4rem solid transparent;
-  border-right: 0.4rem solid transparent;
-  border-top: 0.4rem solid currentColor;
+/* Suavizado de imágenes para evitar saltos de layout */
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
 }

@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 
 export default function ServiciosPage() {
   return (
-    <section className="bg-white py-20 md:py-28 lg:py-36 border-y border-grafito/10">
+    <section className="bg-white py-16 md:py-20 lg:py-24 border-y border-grafito/10">
       <Container>
         <SectionTitle
           etiqueta="Áreas de práctica"
@@ -22,13 +22,13 @@ export default function ServiciosPage() {
           }
         />
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 lg:gap-6">
           {servicios.map((servicio) => (
             <ServiceCard key={servicio.slug} servicio={servicio} />
           ))}
         </div>
 
-        <p className="mt-10 text-[0.8rem] text-grafito/50 max-w-md">
+        <p className="mt-8 text-[0.78rem] text-grafito/50 max-w-md">
           Los servicios se describen a nivel conceptual. Para requerimientos
           sujetos a regulación profesional, consulte los requisitos vigentes en
           su jurisdicción.

@@ -1,11 +1,6 @@
 import { SectionTitle } from "@/components/SectionTitle";
 import { Container } from "@/components/Container";
 
-/**
- * Tres pilares de la propuesta de valor de TRAZA.
- * Mensajes concretos, sin frases corporativas vacías.
- */
-
 const PILARES = [
   {
     title: "Precisión técnica",
@@ -29,7 +24,7 @@ const PILARES = [
 
 export function Enfoque() {
   return (
-    <section id="enfoque" className="bg-white py-20 md:py-28 lg:py-36 border-y border-grafito/10">
+    <section id="enfoque" className="bg-white py-16 md:py-20 lg:py-24 border-y border-grafito/10">
       <Container>
         <SectionTitle
           etiqueta="Propuesta de valor"
@@ -39,22 +34,22 @@ export function Enfoque() {
           }
         />
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 lg:gap-6">
           {PILARES.map((pilar) => (
             <article
               key={pilar.marca}
-              className="rounded-[2px] border border-grafito/15 bg-concreto p-6 md:p-8 shadow-sm"
+              className="rounded-md border border-grafito/15 bg-concreto p-4 md:p-5"
             >
-              <div className="flex items-center gap-2 mb-5">
-                <div className="w-1.5 h-1.5 bg-verde rounded-full" />
-                <span className="text-[0.7rem] font-black text-grafito tracking-wider uppercase">
+              <div className="flex items-center gap-2 mb-3">
+                <div className="w-1 h-3 bg-verde" />
+                <span className="text-[0.68rem] font-black text-grafito tracking-wider uppercase">
                   {pilar.marca}
                 </span>
               </div>
-              <h3 className="text-grafito font-bold text-lg md:text-xl tracking-tight leading-snug mb-3">
+              <h3 className="text-grafito font-bold text-base md:text-lg tracking-tight leading-snug mb-3">
                 {pilar.title}
               </h3>
-              <p className="text-[0.9rem] leading-7 text-grafito/60">
+              <p className="text-[0.85rem] leading-7 text-grafito/60">
                 {pilar.text}
               </p>
             </article>

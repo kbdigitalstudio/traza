@@ -1,11 +1,6 @@
 import { SectionTitle } from "@/components/SectionTitle";
 import { Container } from "@/components/Container";
 
-/**
- * Cobertura: Colombia como contexto de trabajo.
- * Referencias visuales de departamentos, sin afirmar oficinas ni cobertura operativa confirmada.
- */
-
 const REGIONES = [
   { nombre: "Meta", zona: "Orinoquía", ejemplo: "Infraestructura vial" },
   { nombre: "Cundinamarca", zona: "Andina", ejemplo: "Edificación institucional" },
@@ -15,7 +10,7 @@ const REGIONES = [
 
 export function Cobertura() {
   return (
-    <section id="cobertura" className="bg-concreto py-20 md:py-28 lg:py-36">
+    <section id="cobertura" className="bg-concreto py-16 md:py-20 lg:py-24">
       <Container>
         <SectionTitle
           etiqueta="Contexto"
@@ -25,15 +20,15 @@ export function Cobertura() {
           }
         />
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 lg:gap-8 mt-4">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-5 lg:gap-6 mt-3">
           {REGIONES.map((region) => (
             <article
               key={region.nombre}
-              className="rounded-[2px] border border-grafito/15 bg-white p-5 md:p-6 shadow-sm flex flex-col"
+              className="rounded-md border border-grafito/15 bg-white p-4 md:p-5 flex flex-col"
             >
               <div className="flex items-center gap-2 mb-3">
-                <div className="w-1.5 h-1.5 bg-naranja rounded-full" />
-                <span className="text-[0.65rem] font-bold text-grafito tracking-wider uppercase">
+                <div className="w-1 h-3 bg-naranja" />
+                <span className="text-[0.68rem] font-bold text-grafito tracking-wider uppercase">
                   Referencia
                 </span>
               </div>
@@ -48,7 +43,7 @@ export function Cobertura() {
           ))}
         </div>
 
-        <p className="mt-10 text-[0.8rem] text-grafito/50 max-w-md">
+        <p className="mt-8 text-[0.78rem] text-grafito/50 max-w-md">
           Estas regiones son referencias del concepto, no sedes operativas
           confirmadas de TRAZA.
         </p>

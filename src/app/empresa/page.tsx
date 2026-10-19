@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 
 export default function EmpresaPage() {
   return (
-    <section className="bg-concreto py-20 md:py-28 lg:py-36">
+    <section className="bg-concreto py-16 md:py-20 lg:py-24">
       <Container>
         <SectionTitle
           etiqueta="Identidad"
@@ -22,9 +22,9 @@ export default function EmpresaPage() {
           }
         />
 
-        <div className="grid lg:grid-cols-2 lg:gap-16 mt-12 lg:mt-16">
+        <div className="grid lg:grid-cols-2 lg:gap-12 mt-10 lg:mt-14">
           <div>
-            <h2 className="font-black text-grafito text-3xl md:text-4xl tracking-tight leading-tight mb-6">
+            <h2 className="font-black text-grafito text-3xl md:text-4xl tracking-tight leading-tight mb-4">
               Concepto de marca
             </h2>
             <p className="text-grafito/70 text-lg leading-8 mb-6">
@@ -44,7 +44,7 @@ export default function EmpresaPage() {
               <li>Confiable y orientada a resultados.</li>
               <li>Comprometida con el desarrollo de infraestructura.</li>
             </ul>
-            <p className="mt-8 text-[0.8rem] text-grafito/40 max-w-md">
+            <p className="mt-8 text-[0.78rem] text-grafito/40 max-w-md">
               Este sitio es un concepto demostrativo desarrollado para el
               portafolio de KB Digital Studio. No se afirman años de experiencia,
               certificaciones, licencias, contratos, clientes reales ni premios.

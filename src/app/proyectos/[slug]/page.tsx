@@ -6,11 +6,6 @@ import { proyectos, proyectoPorSlug } from "@/data/proyectos";
 import { Container } from "@/components/Container";
 import { cn } from "@/lib/utils";
 
-/**
- * Detalle de un proyecto conceptual.
- * En Next.js 16, `params` se resuelve como Promise en Server Components.
- */
-
 export async function generateStaticParams() {
   return proyectos.map((proyecto) => ({ slug: proyecto.slug }));
 }
@@ -42,8 +37,8 @@ export default async function ProyectoDetailPage({
   }
 
   return (
-    <article className="bg-concreto min-h-[calc(100vh-4rem)] flex flex-col">
-      <header className="relative h-[55vh] md:h-[70vh] overflow-hidden">
+    <article className="bg-concreto flex flex-col">
+      <header className="relative h-[50vh] md:h-[60vh] overflow-hidden">
         <Image
           src={proyecto.image}
           alt={proyecto.imageAlt}
@@ -53,12 +48,12 @@ export default async function ProyectoDetailPage({
           priority
         />
         <div className="absolute inset-0 bg-gradient-to-t from-grafito/95 via-grafito/60 to-transparent" />
-        <div className="absolute bottom-0 left-0 right-0 p-6 md:p-10 pb-10 md:pb-16">
+        <div className="absolute bottom-0 left-0 right-0 p-5 md:p-8 pb-8 md:pb-12">
           <Container>
-            <span className="inline-flex items-center gap-1.5 rounded-full bg-white/10 backdrop-blur px-3 py-1 text-[0.7rem] font-bold text-concreto tracking-wider uppercase border border-concreto/30">
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-white/10 backdrop-blur px-3 py-1 text-[0.68rem] font-bold text-concreto tracking-wider uppercase border border-concreto/30">
               {proyecto.status}
             </span>
-            <h1 className="mt-6 font-black tracking-tight leading-[1.05] text-3xl md:text-5xl lg:text-6xl text-blanco">
+            <h1 className="mt-5 font-black tracking-tight leading-[1.05] text-3xl md:text-5xl lg:text-6xl text-blanco">
               {proyecto.title}
             </h1>
             <p className="mt-4 text-concreto/70 text-lg md:text-xl leading-7 max-w-md">
@@ -69,9 +64,9 @@ export default async function ProyectoDetailPage({
       </header>
 
       <div className="flex-1">
-        <Container className="py-20 md:py-28">
-          <div className="grid lg:grid-cols-2 lg:gap-12">
-            <div className="lg:col-span-2 space-y-8">
+        <Container className="py-16 md:py-20 lg:py-24">
+          <div className="grid lg:grid-cols-2 lg:gap-8">
+            <div className="lg:col-span-2 space-y-6">
               <h2 className="font-black text-grafito text-3xl md:text-4xl tracking-tight leading-tight">
                 Descripción técnica
               </h2>
@@ -80,8 +75,8 @@ export default async function ProyectoDetailPage({
               </p>
             </div>
 
-            <div className="space-y-6">
-              <div className="rounded-[2px] border border-grafito/15 bg-white p-6 shadow-sm">
+            <div className="space-y-4">
+              <div className="rounded-md border border-grafito/15 bg-white p-5">
                 <h3 className="font-bold text-grafito text-sm tracking-wide uppercase mb-3">
                   Alcance conceptual
                 </h3>
@@ -90,7 +85,7 @@ export default async function ProyectoDetailPage({
                 </p>
               </div>
 
-              <div className="rounded-[2px] border border-grafito/15 bg-white p-6 shadow-sm">
+              <div className="rounded-md border border-grafito/15 bg-white p-5">
                 <h3 className="font-bold text-grafito text-sm tracking-wide uppercase mb-3">
                   Ficha del caso
                 </h3>
@@ -116,7 +111,7 @@ export default async function ProyectoDetailPage({
                     {proyecto.status}
                   </div>
                 </dl>
-                <p className="mt-4 text-[0.75rem] text-grafito/40 max-w-xs">
+                <p className="mt-4 text-[0.72rem] text-grafito/40 max-w-xs">
                   Caso demostrativo. No se publican dimensiones, capacidades de
                   carga ni costos ejecutados.
                 </p>
@@ -124,11 +119,11 @@ export default async function ProyectoDetailPage({
             </div>
           </div>
 
-          <div className="mt-16 lg:mt-20 flex gap-4 justify-center lg:justify-start">
+          <div className="mt-12 lg:mt-16 flex gap-3 justify-center lg:justify-start">
             <Link
               href="/proyectos"
               className={cn(
-                "inline-flex items-center justify-center gap-2 rounded-full border border-grafito bg-white text-grafito px-5 py-2 text-sm font-semibold shadow-sm hover:bg-grafito/5 transition-colors focus-visible:ring-2 focus-visible:ring-naranja focus-visible:outline-none"
+                "inline-flex items-center justify-center gap-2 rounded-md border border-grafito bg-white text-grafito px-4 py-2 text-sm font-semibold hover:bg-grafito/5 transition-colors focus-visible:ring-2 focus-visible:ring-naranja focus-visible:outline-none"
               )}
             >
               Volver a proyectos{" "}
@@ -137,7 +132,7 @@ export default async function ProyectoDetailPage({
             <Link
               href="/contacto"
               className={cn(
-                "inline-flex items-center justify-center gap-2 rounded-full bg-naranja text-white px-5 py-2 text-sm font-semibold shadow-sm hover:bg-naranja/90 transition-colors focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none"
+                "inline-flex items-center justify-center gap-2 rounded-md bg-naranja text-white px-4 py-2 text-sm font-semibold hover:bg-naranja/90 transition-colors focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none"
               )}
             >
               Solicitar cotización{" "}

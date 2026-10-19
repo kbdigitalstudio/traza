@@ -17,14 +17,12 @@ type FormData = {
 type FormState = "idle" | "sending" | "success" | "error";
 
 type ContactFormProps = {
-  /** Slug del servicio enviado desde la página (Server Component) para precargar el formulario. */
   searchParamsServicio?: string;
 };
 
 export function ContactForm({
   searchParamsServicio,
 }: ContactFormProps) {
-  // Deriva el servicio desde el parámetro de URL sin efectos secundarios.
   const servicioDesdeURL = searchParamsServicio
     ? servicioPorSlug(searchParamsServicio)
     : null;
@@ -69,8 +67,6 @@ export function ContactForm({
 
     setState("sending");
 
-    // Simulación de envío a un backend que aún no está conectado.
-    // En producción, aquí se enviarían los datos a un servicio de correo o CRM.
     await new Promise((resolve) => setTimeout(resolve, 1200));
 
     setState("success");
@@ -79,7 +75,7 @@ export function ContactForm({
   return (
     <>
       {state === "success" ? (
-        <div className="rounded-[3px] border border-naranja/30 bg-naranja/5 p-8 md:p-12 shadow-sm" role="status" aria-live="polite">
+        <div className="rounded-md border border-naranja/30 bg-naranja/5 p-6 md:p-10" role="status" aria-live="polite">
           <h2 className="font-bold text-naranja text-xl tracking-tight mb-3">
             Mensaje recibido
           </h2>
@@ -90,7 +86,7 @@ export function ContactForm({
           <Link
             href="/"
             className={cn(
-              "inline-flex items-center gap-2 rounded-full bg-grafito text-white px-5 py-2 text-sm font-semibold shadow-sm hover:bg-grafito/90 transition-colors focus-visible:ring-2 focus-visible:ring-naranja focus-visible:outline-none"
+              "inline-flex items-center gap-2 rounded-md bg-grafito text-white px-4 py-2 text-sm font-semibold hover:bg-grafito/90 transition-colors focus-visible:ring-2 focus-visible:ring-naranja focus-visible:outline-none"
             )}
           >
             Volver al inicio{" "}<span aria-hidden="true">→</span>
@@ -99,21 +95,21 @@ export function ContactForm({
       ) : (
         <form
           onSubmit={handleSubmit}
-          className="space-y-6"
+          className="space-y-5"
           noValidate
           aria-label="Formulario de contacto"
         >
           {servicioSeleccionado && (
-            <div className="rounded-md bg-naranja/10 p-4 border border-naranja/20">
-              <p className="text-[0.8rem] text-naranja font-medium mb-1">
+            <div className="rounded-md bg-naranja/10 p-3 border border-naranja/20">
+              <p className="text-[0.78rem] text-naranja font-medium mb-2">
                 Solicitud de cotización:
               </p>
-              <p className="text-[0.9rem] text-grafito/70 font-semibold">
+              <p className="text-[0.85rem] text-grafito/70 font-semibold">
                 {servicioSeleccionado}
               </p>
             </div>
           )}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
             <TextField
               label="Nombre completo"
               name="nombre"
@@ -138,7 +134,7 @@ export function ContactForm({
             value={formData.empresa}
             onChange={(v) => handleChange("empresa", v)}
           />
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
             <SelectField
               label="Tipo de proyecto"
               name="tipoProyecto"
@@ -148,14 +144,10 @@ export function ContactForm({
               required
             >
               <option value="">Seleccionar tipo de proyecto</option>
-              <option value="infraestructura-vial">
-                Infraestructura vial
-              </option>
+              <option value="infraestructura-vial">Infraestructura vial</option>
               <option value="estructuras">Estructuras de concreto</option>
               <option value="edificacion">Edificación institucional</option>
-              <option value="hidraulica">
-                Obras hidráulicas y drenaje
-              </option>
+              <option value="hidraulica">Obras hidráulicas y drenaje</option>
               <option value="consultoria">Consultoría de ingeniería</option>
               <option value="otro">Otro</option>
             </SelectField>
@@ -185,7 +177,7 @@ export function ContactForm({
             >
               {state === "sending" ? "Enviando…" : "Solicitar contacto"}
             </Button>
-            <p className="mt-4 text-[0.75rem] text-grafito/40 max-w-md">
+            <p className="mt-3 text-[0.72rem] text-grafito/40 max-w-md">
               Esta es una experiencia demostrativa de interfaz. No se expone
               ningún backend ni clave privada en el navegador.
             </p>
@@ -195,8 +187,6 @@ export function ContactForm({
     </>
   );
 }
-
-// --- Componentes auxiliares del formulario ---
 
 function TextField({
   label,
@@ -221,7 +211,7 @@ function TextField({
     <div className="space-y-2">
       <label
         htmlFor={name}
-        className="block text-[0.8rem] font-semibold text-grafito tracking-wide uppercase"
+        className="block text-[0.78rem] font-semibold text-grafito tracking-wide uppercase"
       >
         {label}
       </label>
@@ -236,7 +226,7 @@ function TextField({
         aria-invalid={!!error}
         aria-errormessage={error ? `${name}-error` : undefined}
         className={cn(
-          "block w-full rounded-md border px-4 py-3 text-sm leading-6",
+          "block w-full rounded-md border px-3 py-2.5 text-sm leading-6",
           "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-naranja",
           error
             ? "border-naranja text-grafito"
@@ -245,7 +235,7 @@ function TextField({
         )}
       />
       {error && (
-        <p id={`${name}-error`} className="text-[0.75rem] text-naranja" role="alert">
+        <p id={`${name}-error`} className="text-[0.72rem] text-naranja" role="alert">
           {error}
         </p>
       )}
@@ -274,7 +264,7 @@ function SelectField({
     <div className="space-y-2">
       <label
         htmlFor={name}
-        className="block text-[0.8rem] font-semibold text-grafito tracking-wide uppercase"
+        className="block text-[0.78rem] font-semibold text-grafito tracking-wide uppercase"
       >
         {label}
       </label>
@@ -286,7 +276,7 @@ function SelectField({
         required={required}
         aria-invalid={!!error}
         className={cn(
-          "block w-full rounded-md border px-4 py-3 text-sm leading-6",
+          "block w-full rounded-md border px-3 py-2.5 text-sm leading-6",
           "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-naranja",
           error
             ? "border-naranja text-grafito"
@@ -296,7 +286,7 @@ function SelectField({
         {children}
       </select>
       {error && (
-        <p id={`${name}-error`} className="text-[0.75rem] text-naranja" role="alert">
+        <p id={`${name}-error`} className="text-[0.72rem] text-naranja" role="alert">
           {error}
         </p>
       )}
@@ -323,7 +313,7 @@ function TextAreaField({
     <div className="space-y-2">
       <label
         htmlFor={name}
-        className="block text-[0.8rem] font-semibold text-grafito tracking-wide uppercase"
+        className="block text-[0.78rem] font-semibold text-grafito tracking-wide uppercase"
       >
         {label}
       </label>
@@ -337,7 +327,7 @@ function TextAreaField({
         aria-invalid={!!error}
         aria-errormessage={error ? `${name}-error` : undefined}
         className={cn(
-          "block w-full rounded-md border px-4 py-3 text-sm leading-6",
+          "block w-full rounded-md border px-3 py-2.5 text-sm leading-6",
           "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-naranja",
           error
             ? "border-naranja text-grafito"
@@ -346,7 +336,7 @@ function TextAreaField({
         )}
       />
       {error && (
-        <p id={`${name}-error`} className="text-[0.75rem] text-naranja" role="alert">
+        <p id={`${name}-error`} className="text-[0.72rem] text-naranja" role="alert">
           {error}
         </p>
       )}

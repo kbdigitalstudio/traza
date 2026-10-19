@@ -7,15 +7,9 @@ const base =
   "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50";
 
 const variants: Record<string, string> = {
-  primary:
-    "bg-naranja text-white hover:bg-naranja/90 focus-visible:ring-naranja",
-  secondary:
-    "bg-concreto text-grafito hover:bg-concreto/80 focus-visible:ring-grafito",
-  outline:
-    "border border-grafito bg-white text-grafito hover:bg-grafito/5 focus-visible:ring-grafito",
+  primary: "bg-naranja text-white hover:bg-naranja/90 focus-visible:ring-naranja",
+  outline: "border border-grafito bg-white text-grafito hover:bg-grafito/5 focus-visible:ring-grafito",
   ghost: "hover:bg-grafito/5 hover:text-grafito focus-visible:ring-grafito",
-  "naranja-ghost":
-    "text-naranja hover:bg-naranja/10 focus-visible:ring-naranja",
 };
 
 const sizes: Record<string, string> = {
@@ -35,12 +29,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     return (
       <button
         ref={ref}
-        className={cn(
-          base,
-          variants[variant],
-          sizes[size],
-          className
-        )}
+        className={cn(base, variants[variant], sizes[size], className)}
         {...props}
       />
     );

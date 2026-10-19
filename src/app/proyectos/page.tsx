@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 
 export default function ProyectosPage() {
   return (
-    <section className="bg-concreto py-20 md:py-28 lg:py-36">
+    <section className="bg-concreto py-16 md:py-20 lg:py-24">
       <Container>
         <SectionTitle
           etiqueta="Portafolio conceptual"
@@ -22,13 +22,13 @@ export default function ProyectosPage() {
           }
         />
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 lg:gap-6">
           {proyectos.map((proyecto) => (
             <ProjectCard key={proyecto.slug} proyecto={proyecto} />
           ))}
         </div>
 
-        <p className="mt-10 text-[0.8rem] text-grafito/50 max-w-md">
+        <p className="mt-8 text-[0.78rem] text-grafito/50 max-w-md">
           Nota: las fotografías son referencias ilustrativas bajo licencia
           Unsplash y no representan obras propias de TRAZA.
         </p>
