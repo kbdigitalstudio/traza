@@ -1,42 +1,43 @@
+import Link from "next/link";
+import { Section } from "@/components/Section";
 import { SectionTitle } from "@/components/SectionTitle";
 import { ProjectCard } from "@/components/ProjectCard";
-import { Container } from "@/components/Container";
 import { proyectos } from "@/data/proyectos";
 
 export function ProyectosDestacados() {
-  const destacados = proyectos.filter((p) => p.featured);
-  const [primero, ...restantes] = destacados;
+  const destacados = proyectos.filter((proyecto) => proyecto.featured);
 
   return (
-    <section id="proyectos" className="bg-concreto py-16 md:py-20 lg:py-24">
-      <Container>
-        <SectionTitle
-          etiqueta="Portafolio conceptual"
-          title="Obras pensadas para durar."
-          description={
-            "Cuatro casos demostrativos que muestran el enfoque de TRAZA en distintas ramas de la ingeniería civil. Todas las ubicaciones y datos son parte del concepto y no obras ejecutadas por una empresa real."
-          }
-        />
+    <Section id="proyectos" tone="concreto">
+      <SectionTitle
+        etiqueta="Portafolio conceptual · 04 casos"
+        title="Infraestructura que deja huella."
+        description="Cuatro casos demostrativos que muestran el enfoque de TRAZA en distintas ramas de la ingeniería civil. Las ubicaciones y los datos forman parte del concepto, no de obras ejecutadas."
+      />
 
-        <div className="space-y-8 lg:space-y-12">
-          {primero && (
-            <div className="mb-8 lg:mb-0">
-              <ProjectCard proyecto={primero} destacado />
-            </div>
-          )}
+      <div className="grid grid-cols-2 gap-x-4 gap-y-8 sm:gap-x-6 sm:gap-y-9 lg:gap-x-8 lg:gap-y-11">
+        {destacados.map((proyecto, index) => (
+          <ProjectCard
+            key={proyecto.slug}
+            proyecto={proyecto}
+            index={index}
+            destacado={index === 0}
+          />
+        ))}
+      </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 lg:gap-6">
-            {restantes.map((proyecto) => (
-              <ProjectCard key={proyecto.slug} proyecto={proyecto} />
-            ))}
-          </div>
-        </div>
-
-        <p className="mt-8 text-[0.78rem] text-grafito/50 max-w-md">
-          Nota: las fotografías son referencias ilustrativas bajo licencia
-          Unsplash y no representan obras propias de TRAZA.
+      <div className="mt-8 flex flex-col gap-2 border-t border-grafito/10 pt-4 sm:flex-row sm:items-center sm:justify-between">
+        <p className="max-w-[62ch] text-[0.74rem] leading-5 text-grafito/70">
+          Fotografías ilustrativas bajo licencia Unsplash. No representan obras
+          propias de TRAZA.
         </p>
-      </Container>
-    </section>
+        <Link
+          href="/proyectos"
+          className="shrink-0 text-[0.78rem] font-semibold text-grafito transition-colors hover:text-naranja-texto"
+        >
+          Ver todos los proyectos <span aria-hidden="true">→</span>
+        </Link>
+      </div>
+    </Section>
   );
 }

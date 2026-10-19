@@ -1,110 +1,76 @@
-"use client";
-
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
-import { Button } from "@/components/ui/button";
 import { Container } from "@/components/Container";
-
-const SCROLL_HINT = "Desplazar";
+import { buttonVariants } from "@/components/ui/button-variants";
 
 export function Hero() {
-  const [scrolled, setScrolled] = useState(false);
-
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 60);
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
   return (
     <section
-      className="relative bg-grafito text-blanco"
+      className="relative flex min-h-[560px] overflow-hidden bg-grafito text-concreto md:min-h-[620px]"
       aria-labelledby="hero-titular"
     >
-      <div className="absolute top-0 right-0 w-[20rem] h-[20rem] reticle -translate-x-1/4 -translate-y-1/4 pointer-events-none hidden sm:block" />
-
-      <div className="relative z-10">
-        <Container>
-          <div className="grid lg:grid-cols-2 lg:gap-10 items-center">
-            <div className="lg:pr-10 pt-10 lg:pt-0 pb-10 lg:pb-0">
-              <span className="inline-flex items-center gap-1.5 rounded-full bg-naranja/15 px-3 py-1 text-[0.68rem] font-bold text-naranja tracking-wider uppercase mb-6 block">
-                Ingeniería civil · Colombia
-              </span>
-
-              <h1
-                id="hero-titular"
-                className="text-grafito font-black tracking-tight leading-[1.02] text-4xl md:text-5xl lg:text-6xl text-blanco mb-6"
-              >
-                Infraestructura que conecta.<br />
-                <span className="text-naranja">Ingeniería que transforma.</span>
-              </h1>
-
-              <p className="max-w-md text-concreto/80 text-lg md:text-xl leading-7 mb-8">
-                Diseño, planeación y desarrollo de proyectos de infraestructura
-                civil: estructuras de concreto, corredores viales, edificación
-                institucional y obras hidráulicas. Una base técnica para el
-                desarrollo de Colombia.
-              </p>
-
-              <div className="flex flex-col sm:flex-row gap-3">
-                <Link
-                  href="/proyectos"
-                  className="flex items-center justify-center gap-2"
-                >
-                  <Button variant="primary" size="lg">
-                    Explorar proyectos
-                  </Button>
-                </Link>
-                <Link href="/contacto">
-                  <Button variant="outline" size="lg">
-                    Hablemos de tu proyecto
-                  </Button>
-                </Link>
-              </div>
-            </div>
-
-            <div className="relative lg:min-h-[52vh] min-h-[400px] flex flex-col justify-end">
-              <div className="relative w-full h-full rounded-md border border-concreto/20 overflow-hidden shadow-xl">
-                <Image
-                  src="https://images.unsplash.com/photo-1764449321531-a5f6a42c5d12?fm=jpg&q=60&w=2000&auto=format&fit=crop"
-                  alt="Estructura de concreto de gran escala, viaducto moderno contra cielo despejado"
-                  fill
-                  sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 45vw"
-                  className="object-cover object-center"
-                  priority
-                />
-                <div className="absolute inset-x-0 bottom-0 h-[35%] bg-gradient-to-t from-grafito/95 via-grafito/60 to-transparent" />
-                <div className="absolute bottom-5 left-5 right-5 flex justify-between items-end pointer-events-none z-10">
-                  <div className="flex flex-col gap-1">
-                    <span className="text-[0.68rem] font-bold text-concreto/70 tracking-wider uppercase">
-                      Protagonista
-                    </span>
-                    <span className="text-xl font-black text-blanco tracking-tight">
-                      Obra de gran escala
-                    </span>
-                  </div>
-                  <div className="text-concreto/40 font-mono text-[0.68rem] tracking-widest uppercase">
-                    ref. estructura 01
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </Container>
+      <div className="absolute inset-0">
+        <Image
+          src="/images/hero-infraestructura.jpg"
+          alt="Viaducto de concreto de gran escala visto desde abajo, fotografía ilustrativa de infraestructura."
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover object-[center_58%]"
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-grafito/95 via-grafito/70 to-grafito/20" />
+        <div className="absolute inset-0 bg-gradient-to-t from-grafito via-grafito/25 to-grafito/35" />
+        <div className="absolute inset-x-0 top-0 h-44 bg-gradient-to-b from-grafito/90 to-transparent" />
       </div>
 
-      {!scrolled && (
-        <div
-          className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-2"
-          role="none"
-        >
-          <span className="text-[0.65rem] font-bold text-concreto/50 tracking-widest uppercase">
-            {SCROLL_HINT}
-          </span>
-          <div className="w-1 h-4 rounded-full bg-concreto/50" />
+      <Container className="relative flex min-h-[560px] flex-col justify-end pb-8 pt-28 md:min-h-[620px] md:pb-10 md:pt-32">
+        <div className="max-w-3xl">
+          <p className="eyebrow mb-5 flex items-center gap-3 text-concreto/70">
+            <span className="h-px w-8 bg-naranja" aria-hidden="true" />
+            Ingeniería civil · Colombia
+          </p>
+
+          <h1
+            id="hero-titular"
+            className="text-[clamp(2.35rem,5.4vw,4.7rem)] font-extrabold leading-[0.98] tracking-[-0.045em] text-balance"
+          >
+            <span className="block text-concreto">Infraestructura que conecta.</span>
+            <span className="block text-naranja">Ingeniería que transforma.</span>
+          </h1>
+
+          <p className="mt-5 max-w-[52ch] text-[0.98rem] leading-7 text-concreto/75 md:text-[1.05rem] md:leading-8">
+            Diseño, planeación y desarrollo de proyectos de infraestructura
+            civil: estructuras, corredores viales, edificación institucional y
+            obras hidráulicas.
+          </p>
+
+          <div className="mt-7 flex flex-col gap-3 sm:flex-row">
+            <Link
+              href="/proyectos"
+              className={buttonVariants({ variant: "primary", size: "lg" })}
+            >
+              Explorar proyectos
+              <span aria-hidden="true">→</span>
+            </Link>
+            <Link
+              href="/contacto"
+              className={buttonVariants({ variant: "outlineInverse", size: "lg" })}
+            >
+              Hablemos de tu proyecto
+            </Link>
+          </div>
         </div>
-      )}
+
+        <div className="mt-10 flex flex-col gap-2 border-t border-concreto/20 pt-4 text-concreto/70 sm:flex-row sm:items-center sm:justify-between">
+          <p className="eyebrow flex items-center gap-2">
+            <span className="text-naranja">01</span>
+            Portafolio conceptual
+          </p>
+          <p className="eyebrow text-concreto/70">
+            Fotografía ilustrativa · Unsplash
+          </p>
+        </div>
+      </Container>
     </section>
   );
 }

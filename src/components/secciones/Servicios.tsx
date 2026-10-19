@@ -1,32 +1,33 @@
+import { Section } from "@/components/Section";
 import { SectionTitle } from "@/components/SectionTitle";
 import { ServiceCard } from "@/components/ServiceCard";
-import { Container } from "@/components/Container";
 import { servicios } from "@/data/servicios";
 
 export function Servicios() {
   return (
-    <section id="servicios" className="bg-white py-16 md:py-20 lg:py-24 border-y border-grafito/10">
-      <Container>
-        <SectionTitle
-          etiqueta="Áreas de práctica"
-          title="Servicios de ingeniería."
-          description={
-            "Cada bloque describe el problema técnico que el servicio ayuda a resolver y qué información conviene aportar. No se afirman habilitaciones profesionales ni licencias no verificadas."
-          }
-        />
+    <Section id="servicios" tone="white" bordered>
+      <SectionTitle
+        etiqueta="Áreas de práctica · 08 servicios"
+        title="Servicios de ingeniería."
+        description="Cada área describe el problema técnico que ayuda a resolver y la información necesaria para una cotización. No se afirman habilitaciones ni licencias profesionales."
+      />
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 lg:gap-6">
-          {servicios.map((servicio) => (
-            <ServiceCard key={servicio.slug} servicio={servicio} />
-          ))}
-        </div>
+      <div className="grid gap-x-10 sm:grid-cols-2">
+        {servicios.map((servicio, index) => (
+          <ServiceCard
+            key={servicio.slug}
+            servicio={servicio}
+            index={index}
+            showWhatToBring={false}
+          />
+        ))}
+      </div>
 
-        <p className="mt-8 text-[0.78rem] text-grafito/50 max-w-md">
-          Los servicios se describen a nivel conceptual. Para requerimientos
-          sujetos a regulación profesional, consulte los requisitos vigentes en
-          su jurisdicción.
-        </p>
-      </Container>
-    </section>
+      <p className="mt-8 max-w-[70ch] border-t border-grafito/10 pt-4 text-[0.74rem] leading-5 text-grafito/70">
+        Los servicios se describen a nivel conceptual. Para requerimientos
+        sujetos a regulación profesional, consulte los requisitos vigentes en su
+        jurisdicción.
+      </p>
+    </Section>
   );
 }

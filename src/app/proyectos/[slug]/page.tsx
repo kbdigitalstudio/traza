@@ -3,14 +3,18 @@ import Image from "next/image";
 import Link from "next/link";
 import { type Metadata } from "next";
 import { proyectos, proyectoPorSlug } from "@/data/proyectos";
-import { Container } from "@/components/Container";
-import { cn } from "@/lib/utils";
+import { Section } from "@/components/Section";
+import { buttonVariants } from "@/components/ui/button-variants";
 
 export async function generateStaticParams() {
   return proyectos.map((proyecto) => ({ slug: proyecto.slug }));
 }
 
-export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
   const { slug } = await params;
   const proyecto = proyectoPorSlug(slug);
 
@@ -19,7 +23,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   }
 
   return {
-    title: `${proyecto.title} | TRAZA`,
+    title: proyecto.title,
     description: proyecto.description,
   };
 }
@@ -36,111 +40,124 @@ export default async function ProyectoDetailPage({
     notFound();
   }
 
+  const ficha = [
+    ["Identificador", proyecto.slug],
+    ["Categoría", proyecto.category],
+    ["Ubicación", proyecto.location],
+    ["Estado", proyecto.status],
+  ];
+  const caseIndex = proyectos.findIndex((item) => item.slug === slug) + 1;
+
   return (
-    <article className="bg-concreto flex flex-col">
-      <header className="relative h-[50vh] md:h-[60vh] overflow-hidden">
-        <Image
-          src={proyecto.image}
-          alt={proyecto.imageAlt}
-          fill
-          sizes="100vw"
-          className="object-cover object-center"
-          priority
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-grafito/95 via-grafito/60 to-transparent" />
-        <div className="absolute bottom-0 left-0 right-0 p-5 md:p-8 pb-8 md:pb-12">
-          <Container>
-            <span className="inline-flex items-center gap-1.5 rounded-full bg-white/10 backdrop-blur px-3 py-1 text-[0.68rem] font-bold text-concreto tracking-wider uppercase border border-concreto/30">
-              {proyecto.status}
-            </span>
-            <h1 className="mt-5 font-black tracking-tight leading-[1.05] text-3xl md:text-5xl lg:text-6xl text-blanco">
+    <article className="bg-concreto">
+      <Section tone="concreto" compact>
+        <nav aria-label="Miga de pan" className="mb-6 flex items-center gap-2">
+          <Link
+            href="/proyectos"
+            className="text-[0.78rem] font-medium text-grafito/70 transition-colors hover:text-grafito"
+          >
+            Proyectos
+          </Link>
+          <span className="text-grafito/30" aria-hidden="true">
+            /
+          </span>
+          <span className="text-[0.78rem] text-grafito/70">
+            Caso {String(caseIndex).padStart(2, "0")}
+          </span>
+        </nav>
+
+        <div className="grid gap-6 lg:grid-cols-[1.25fr_0.75fr] lg:items-end">
+          <div>
+            <p className="eyebrow mb-3 flex items-center gap-2.5 text-grafito/70">
+              <span className="rule-accent" aria-hidden="true" />
+              {proyecto.category}
+            </p>
+            <h1 className="max-w-[22ch] text-[2.2rem] font-extrabold leading-[1.02] tracking-[-0.04em] text-grafito text-balance md:text-5xl">
               {proyecto.title}
             </h1>
-            <p className="mt-4 text-concreto/70 text-lg md:text-xl leading-7 max-w-md">
-              {proyecto.category} · {proyecto.location}
+            <p className="mt-4 text-[0.9rem] leading-6 text-grafito/70">
+              {proyecto.location}
             </p>
-          </Container>
-        </div>
-      </header>
+          </div>
 
-      <div className="flex-1">
-        <Container className="py-16 md:py-20 lg:py-24">
-          <div className="grid lg:grid-cols-2 lg:gap-8">
-            <div className="lg:col-span-2 space-y-6">
-              <h2 className="font-black text-grafito text-3xl md:text-4xl tracking-tight leading-tight">
-                Descripción técnica
-              </h2>
-              <p className="text-grafito/70 text-lg leading-8">
-                {proyecto.description}
+          <p className="max-w-[38ch] text-[0.78rem] leading-5 text-grafito/70 lg:justify-self-end lg:text-right">
+            Caso demostrativo del portafolio conceptual. Las fotografías son
+            ilustrativas y no representan obras ejecutadas.
+          </p>
+        </div>
+
+        <div className="relative mt-8 aspect-[16/9] overflow-hidden rounded-card bg-grafito/10">
+          <Image
+            src={proyecto.image}
+            alt={proyecto.imageAlt}
+            fill
+            priority
+            sizes="(max-width: 1240px) 100vw, 1200px"
+            className="object-cover object-center"
+          />
+        </div>
+
+        <div className="mt-10 grid gap-10 lg:grid-cols-[1.5fr_0.85fr] lg:gap-14">
+          <div>
+            <p className="eyebrow text-grafito/70">Ficha técnica conceptual</p>
+            <h2 className="mt-3 text-2xl font-extrabold tracking-[-0.03em] text-grafito md:text-3xl">
+              Descripción técnica
+            </h2>
+            <p className="mt-4 max-w-[62ch] text-[0.95rem] leading-7 text-grafito/70">
+              {proyecto.description}
+            </p>
+
+            <div className="mt-7 border-l-2 border-naranja bg-white px-4 py-3">
+              <p className="text-[0.76rem] leading-5 text-grafito/70">
+                Caso demostrativo. No se publican dimensiones, capacidades de
+                carga, costos ejecutados ni resultados técnicos verificados.
               </p>
             </div>
 
-            <div className="space-y-4">
-              <div className="rounded-md border border-grafito/15 bg-white p-5">
-                <h3 className="font-bold text-grafito text-sm tracking-wide uppercase mb-3">
-                  Alcance conceptual
-                </h3>
-                <p className="text-grafito/60 text-sm leading-6">
-                  {proyecto.scope}
-                </p>
-              </div>
-
-              <div className="rounded-md border border-grafito/15 bg-white p-5">
-                <h3 className="font-bold text-grafito text-sm tracking-wide uppercase mb-3">
-                  Ficha del caso
-                </h3>
-                <dl className="grid grid-cols-2 gap-x-4 gap-y-2 text-sm">
-                  <div className="col-span-2 text-grafito/50 font-mono text-xs tracking-wider uppercase">
-                    identificador
-                  </div>
-                  <div className="col-span-2 text-grafito font-mono text-sm">
-                    {proyecto.slug}
-                  </div>
-                  <div className="text-grafito/50 font-mono text-xs tracking-wider uppercase">
-                    categoría
-                  </div>
-                  <div className="col-span-2 text-grafito">{proyecto.category}</div>
-                  <div className="text-grafito/50 font-mono text-xs tracking-wider uppercase">
-                    ubicación
-                  </div>
-                  <div className="col-span-2 text-grafito">{proyecto.location}</div>
-                  <div className="text-grafito/50 font-mono text-xs tracking-wider uppercase">
-                    estado
-                  </div>
-                  <div className="col-span-2 text-grafito/60 font-mono text-sm">
-                    {proyecto.status}
-                  </div>
-                </dl>
-                <p className="mt-4 text-[0.72rem] text-grafito/40 max-w-xs">
-                  Caso demostrativo. No se publican dimensiones, capacidades de
-                  carga ni costos ejecutados.
-                </p>
-              </div>
+            <div className="mt-7 flex flex-col gap-3 sm:flex-row">
+              <Link
+                href="/contacto"
+                className={buttonVariants({ variant: "primary", size: "lg" })}
+              >
+                Solicitar cotización
+                <span aria-hidden="true">→</span>
+              </Link>
+              <Link
+                href="/proyectos"
+                className={buttonVariants({ variant: "outline", size: "lg" })}
+              >
+                Volver a proyectos
+              </Link>
             </div>
           </div>
 
-          <div className="mt-12 lg:mt-16 flex gap-3 justify-center lg:justify-start">
-            <Link
-              href="/proyectos"
-              className={cn(
-                "inline-flex items-center justify-center gap-2 rounded-md border border-grafito bg-white text-grafito px-4 py-2 text-sm font-semibold hover:bg-grafito/5 transition-colors focus-visible:ring-2 focus-visible:ring-naranja focus-visible:outline-none"
-              )}
-            >
-              Volver a proyectos{" "}
-              <span aria-hidden="true">→</span>
-            </Link>
-            <Link
-              href="/contacto"
-              className={cn(
-                "inline-flex items-center justify-center gap-2 rounded-md bg-naranja text-white px-4 py-2 text-sm font-semibold hover:bg-naranja/90 transition-colors focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none"
-              )}
-            >
-              Solicitar cotización{" "}
-              <span aria-hidden="true">→</span>
-            </Link>
-          </div>
-        </Container>
-      </div>
+          <aside className="space-y-6">
+            <div className="border-t border-grafito/20 pt-4">
+              <h2 className="eyebrow text-grafito/70">Alcance conceptual</h2>
+              <p className="mt-2 text-[0.85rem] leading-6 text-grafito/70">
+                {proyecto.scope}
+              </p>
+            </div>
+
+            <div className="border-t border-grafito/20 pt-4">
+              <h2 className="eyebrow text-grafito/70">Ficha del caso</h2>
+              <dl className="mt-3">
+                {ficha.map(([label, value]) => (
+                  <div
+                    key={label}
+                    className="grid grid-cols-[6.5rem_1fr] gap-3 border-t border-grafito/10 py-2.5"
+                  >
+                    <dt className="eyebrow pt-0.5 text-grafito/70">{label}</dt>
+                    <dd className="break-words text-[0.82rem] leading-5 text-grafito">
+                      {value}
+                    </dd>
+                  </div>
+                ))}
+              </dl>
+            </div>
+          </aside>
+        </div>
+      </Section>
     </article>
   );
 }

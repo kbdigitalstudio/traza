@@ -1,48 +1,60 @@
-"use client";
-
 import Link from "next/link";
 import { type Servicio } from "@/data/servicios";
 
 export type ServiceCardProps = {
   servicio: Servicio;
+  index: number;
+  showWhatToBring?: boolean;
+  headingLevel?: "h2" | "h3";
 };
 
-export function ServiceCard({ servicio }: ServiceCardProps) {
+export function ServiceCard({
+  servicio,
+  index,
+  showWhatToBring = true,
+  headingLevel = "h3",
+}: ServiceCardProps) {
+  const Heading = headingLevel;
   return (
     <article
       id={servicio.slug}
-      className="group relative border border-grafito/15 bg-white p-5 md:p-6"
+      className="scroll-mt-24 border-t border-grafito/15 py-5 md:py-6"
     >
-      <div className="flex items-center gap-2 mb-3">
-        <div className="w-1 h-3 bg-naranja" />
-        <span className="text-[0.68rem] font-black text-grafito tracking-wider uppercase">
-          Servicio de ingeniería
+      <div className="flex gap-4">
+        <span className="eyebrow shrink-0 pt-0.5 text-grafito/70">
+          {String(index + 1).padStart(2, "0")}
         </span>
-      </div>
 
-      <Link
-        href={`/contacto?servicio=${servicio.slug}`}
-        className="block"
-        aria-label={`Solicitar cotización para: ${servicio.title}`}
-      >
-        <h3
-          className="text-grafito font-bold text-base md:text-lg tracking-tight leading-snug hover:text-naranja transition-colors focus-visible:ring-2 focus-visible:ring-naranja focus-visible:rounded-sm focus-visible:px-2"
-        >
-          {servicio.title}
-        </h3>
-      </Link>
+        <div className="min-w-0 flex-1">
+          <Heading className="text-base font-bold leading-snug tracking-[-0.015em] text-grafito md:text-lg">
+            <Link
+              href={`/contacto?servicio=${servicio.slug}`}
+              className="transition-colors duration-200 hover:text-naranja-texto"
+              aria-label={`Solicitar cotización para: ${servicio.title}`}
+            >
+              {servicio.title}
+              <span
+                className="ml-2 inline-block text-[0.8em] font-normal text-grafito/55"
+                aria-hidden="true"
+              >
+                →
+              </span>
+            </Link>
+          </Heading>
 
-      <p className="mt-3 text-[0.85rem] leading-7 text-grafito/60">
-        {servicio.description}
-      </p>
+          <p className="mt-2 max-w-[54ch] text-[0.86rem] leading-6 text-grafito/65">
+            {servicio.description}
+          </p>
 
-      <div className="mt-4 pt-3 border-t border-grafito/10">
-        <p className="text-[0.72rem] text-grafito/50 mb-2 font-mono tracking-wide uppercase text-xs">
-          Información para la cotización
-        </p>
-        <p className="text-[0.82rem] leading-6 text-grafito/60 italic">
-          {servicio.whatToBring}
-        </p>
+          {showWhatToBring && (
+            <p className="mt-3 max-w-[58ch] text-[0.76rem] leading-5 text-grafito/70">
+              <span className="font-semibold uppercase tracking-[0.08em] text-naranja-texto">
+                Para cotizar:
+              </span>{" "}
+              {servicio.whatToBring}
+            </p>
+          )}
+        </div>
       </div>
     </article>
   );

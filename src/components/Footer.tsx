@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { Logo } from "./Logo";
 import { Container } from "@/components/Container";
+import { buttonVariants } from "@/components/ui/button-variants";
 
 const FOOTER_LINKS: { label: string; href: string }[] = [
   { label: "Inicio", href: "/" },
@@ -19,32 +20,35 @@ const SERVICIOS_PRINCIPALES: { label: string; href: string }[] = [
   { label: "Obras hidráulicas y drenaje", href: "/servicios#obras-hidraulicas-drenaje" },
 ];
 
+const linkClass =
+  "text-[0.82rem] leading-6 text-concreto/70 transition-colors hover:text-naranja";
+
 export async function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="border-t border-grafito/10 bg-grafito text-concreto">
+    <footer className="border-t border-white/10 bg-grafito text-concreto">
       <Container>
-        <div className="pt-8 md:pt-10 pb-8 md:pb-12 lg:grid lg:grid-cols-4 lg:gap-8">
-          <div className="lg:col-span-1 mb-6 lg:mb-0">
-            <Link href="/" className="flex items-center gap-2">
-              <Logo size="sm" withDescriptor />
+        <div className="grid grid-cols-2 gap-x-6 gap-y-8 py-9 sm:gap-9 lg:grid-cols-[1.35fr_0.75fr_1.25fr_1fr] lg:gap-10 lg:py-14">
+          <div className="col-span-2 lg:col-span-1">
+            <Link href="/" className="inline-flex">
+              <Logo size="sm" variant="inverse" />
+              <span className="sr-only">Inicio</span>
             </Link>
-            <p className="mt-5 text-sm text-grafito/40 leading-relaxed max-w-xs">
+            <p className="mt-4 max-w-xs text-[0.82rem] leading-6 text-concreto/70">
               Concepto de marca de ingeniería civil orientado al desarrollo de
               infraestructura en Colombia.
             </p>
           </div>
 
-          <div className="mb-6 lg:mb-0 lg:col-span-1">
-            <h2 className="mb-3 text-xs font-semibold tracking-widest uppercase text-blanco">Navegación</h2>
-            <ul className="space-y-2">
+          <div>
+            <h2 className="eyebrow mb-3 min-h-[2.4em] text-concreto/70 sm:min-h-0">
+              Navegación
+            </h2>
+            <ul className="space-y-1.5">
               {FOOTER_LINKS.map((link) => (
                 <li key={link.href}>
-                  <Link
-                    href={link.href}
-                    className="text-[0.8rem] text-grafito/60 hover:text-naranja transition-colors focus-visible:ring-2 focus-visible:ring-naranja focus-visible:rounded-sm focus-visible:px-1"
-                  >
+                  <Link href={link.href} className={linkClass}>
                     {link.label}
                   </Link>
                 </li>
@@ -52,15 +56,14 @@ export async function Footer() {
             </ul>
           </div>
 
-          <div className="mb-6 lg:mb-0 lg:col-span-2">
-            <h2 className="mb-3 text-xs font-semibold tracking-widest uppercase text-blanco">Servicios principales</h2>
-            <ul className="grid grid-cols-2 gap-x-4 gap-y-2">
+          <div>
+            <h2 className="eyebrow mb-3 min-h-[2.4em] text-concreto/70 sm:min-h-0">
+              Servicios principales
+            </h2>
+            <ul className="grid gap-1.5">
               {SERVICIOS_PRINCIPALES.map((servicio) => (
                 <li key={servicio.href}>
-                  <Link
-                    href={servicio.href}
-                    className="text-[0.8rem] text-grafito/60 hover:text-naranja transition-colors focus-visible:ring-2 focus-visible:ring-naranja focus-visible:rounded-sm focus-visible:px-1"
-                  >
+                  <Link href={servicio.href} className={linkClass}>
                     {servicio.label}
                   </Link>
                 </li>
@@ -68,28 +71,30 @@ export async function Footer() {
             </ul>
           </div>
 
-          <div className="lg:col-span-1">
-            <h2 className="mb-3 text-xs font-semibold tracking-widest uppercase text-blanco">Contacto</h2>
-            <p className="mb-5 text-[0.8rem] text-grafito/60 leading-relaxed">
-              Solicita información a través del formulario de contacto. No hay
-              número telefónico ni dirección física publicados en este concepto.
+          <div className="col-span-2 lg:col-span-1">
+            <h2 className="eyebrow mb-3 text-concreto/70">Contacto</h2>
+            <p className="mb-4 max-w-[30ch] text-[0.82rem] leading-6 text-concreto/70">
+              Consultas y solicitudes de cotización a través del formulario.
+              Este concepto no publica teléfono ni dirección física.
             </p>
             <Link
               href="/contacto"
-              className="inline-flex items-center justify-center gap-2 rounded-full bg-white text-grafito px-4 py-2 text-[0.75rem] font-semibold shadow-sm hover:bg-naranja hover:text-white transition-colors focus-visible:ring-2 focus-visible:ring-naranja"
+              className={buttonVariants({ variant: "outlineInverse", size: "sm" })}
             >
               Ir al formulario
+              <span aria-hidden="true">→</span>
             </Link>
           </div>
         </div>
 
-        <div className="mt-10 lg:mt-12 border-t border-grafito/20 pt-6 pb-8 md:flex md:items-center md:justify-between gap-6">
-          <p className="text-[0.7rem] text-grafito/40 tracking-wide">
+        <div className="flex flex-col gap-2 border-t border-white/10 py-5 sm:flex-row sm:items-center sm:justify-between">
+          <p className="text-[0.72rem] leading-5 text-concreto/65">
             © {year} TRAZA Ingeniería &amp; Infraestructura. Todos los derechos
             reservados.
           </p>
-          <p className="text-[0.65rem] text-grafito/40 tracking-wide max-w-xs md:text-right">
-            Concepto digital desarrollado por <strong className="text-naranja">KB Digital Studio</strong>.
+          <p className="text-[0.72rem] leading-5 text-concreto/65 sm:text-right">
+            Concepto digital desarrollado por{" "}
+            <strong className="font-semibold text-naranja">KB Digital Studio</strong>.
           </p>
         </div>
       </Container>

@@ -1,5 +1,5 @@
+import { Section } from "@/components/Section";
 import { SectionTitle } from "@/components/SectionTitle";
-import { Container } from "@/components/Container";
 import { ServiceCard } from "@/components/ServiceCard";
 import { servicios } from "@/data/servicios";
 import type { Metadata } from "next";
@@ -12,28 +12,30 @@ export const metadata: Metadata = {
 
 export default function ServiciosPage() {
   return (
-    <section className="bg-white py-16 md:py-20 lg:py-24 border-y border-grafito/10">
-      <Container>
-        <SectionTitle
-          etiqueta="Áreas de práctica"
-          title="Servicios de ingeniería."
-          description={
-            "Cada servicio explica brevemente el problema técnico que ayuda a resolver. No se afirman certificaciones, matrículas ni licencias no verificadas."
-          }
-        />
+    <Section tone="white" bordered>
+      <SectionTitle
+        as="h1"
+        etiqueta="Áreas de práctica · 08 servicios"
+        title="Servicios de ingeniería."
+        description="Cada servicio explica el problema técnico que ayuda a resolver y qué información conviene aportar. No se afirman certificaciones, matrículas ni licencias no verificadas."
+      />
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 lg:gap-6">
-          {servicios.map((servicio) => (
-            <ServiceCard key={servicio.slug} servicio={servicio} />
-          ))}
-        </div>
+      <div className="grid gap-x-10 sm:grid-cols-2">
+        {servicios.map((servicio, index) => (
+          <ServiceCard
+            key={servicio.slug}
+            servicio={servicio}
+            index={index}
+            headingLevel="h2"
+          />
+        ))}
+      </div>
 
-        <p className="mt-8 text-[0.78rem] text-grafito/50 max-w-md">
-          Los servicios se describen a nivel conceptual. Para requerimientos
-          sujetos a regulación profesional, consulte los requisitos vigentes en
-          su jurisdicción.
-        </p>
-      </Container>
-    </section>
+      <p className="mt-8 max-w-[70ch] border-t border-grafito/10 pt-4 text-[0.74rem] leading-5 text-grafito/70">
+        Los servicios se describen a nivel conceptual. Para requerimientos
+        sujetos a regulación profesional, consulte los requisitos vigentes en su
+        jurisdicción.
+      </p>
+    </Section>
   );
 }

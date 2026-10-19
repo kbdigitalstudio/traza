@@ -1,8 +1,9 @@
 import Link from "next/link";
-import { Metadata } from "next";
+import { Suspense } from "react";
+import { Section } from "@/components/Section";
 import { SectionTitle } from "@/components/SectionTitle";
-import { Container } from "@/components/Container";
 import { ContactForm } from "@/components/ContactForm";
+import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Contacto",
@@ -10,57 +11,76 @@ export const metadata: Metadata = {
     "Contacta a TRAZA Ingeniería & Infraestructura a través del formulario. Concepto de ingeniería civil colombiana.",
 };
 
-export default function ContactoPage({
-  searchParams,
-}: {
-  searchParams: { [key: string]: string | string[] | undefined };
-}) {
-  const servicio = typeof searchParams.servicio === "string" ? searchParams.servicio : undefined;
-
+export default function ContactoPage() {
   return (
-    <section className="bg-white py-16 md:py-20 lg:py-24 border-y border-grafito/10">
-      <Container>
-        <SectionTitle
-          etiqueta="Contacto"
-          title="Hablemos de tu proyecto."
-          description={
-            "Envíanos tu necesidad y coordinamos una conversación técnica. Formulario a nivel de interfaz; el envío real requiere conectar un servicio de correo o CRM."
-          }
-        />
-        <ContactForm searchParamsServicio={servicio} />
+    <Section tone="white" bordered>
+      <SectionTitle
+        as="h1"
+        etiqueta="Contacto · Consultas"
+        title="Hablemos de tu proyecto."
+        description="Envíanos la necesidad, la etapa y la ubicación del proyecto. El formulario es una demostración de interfaz: valida los campos, pero no envía datos a un backend."
+      />
 
-        <div className="mt-12 md:mt-16 rounded-md border border-grafito/15 bg-concreto p-6 md:p-10">
-          <h3 className="font-bold text-grafito text-lg tracking-tight mb-3">
-            Canales de contacto
-          </h3>
-          <ul className="space-y-3 text-grafito/60 text-lg leading-7">
-            <li className="flex items-start gap-3">
-              <span className="shrink-0 text-[0.8rem] font-mono text-naranja">
+      <div className="grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:gap-14">
+        <aside className="max-w-md">
+          <h2 className="eyebrow text-grafito/70">Canales disponibles</h2>
+
+          <dl className="mt-4 border-t border-grafito/15">
+            <div className="border-b border-grafito/10 py-4">
+              <dt className="text-[0.88rem] font-semibold text-grafito">
                 Formulario
-              </span>
-              <span>
-                Usa el formulario de esta página para enviarnos tu consulta.
-              </span>
-            </li>
-            <li className="flex items-start gap-3">
-              <span className="shrink-0 text-[0.8rem] font-mono text-grafito/50">
+              </dt>
+              <dd className="mt-1 text-[0.82rem] leading-6 text-grafito/65">
+                Usa el formulario de esta página para describir tu consulta.
+              </dd>
+            </div>
+            <div className="border-b border-grafito/10 py-4">
+              <dt className="text-[0.88rem] font-semibold text-grafito">
                 WhatsApp
-              </span>
-              <span className="text-grafito/60">
-                No hay un número de WhatsApp configurado en este concepto. Para
-                contactarnos, utiliza el formulario o la ruta{" "}
+              </dt>
+              <dd className="mt-1 text-[0.82rem] leading-6 text-grafito/65">
+                No hay un número configurado en este concepto. Utiliza el
+                formulario o la ruta{" "}
                 <Link
                   href="/contacto"
-                  className="underline underline-offset-4 hover:text-naranja transition-colors"
+                  className="font-medium text-grafito underline decoration-grafito/30 underline-offset-4 transition-colors hover:text-naranja-texto"
                 >
                   /contacto
                 </Link>
                 .
-              </span>
-            </li>
-          </ul>
+              </dd>
+            </div>
+            <div className="border-b border-grafito/10 py-4">
+              <dt className="text-[0.88rem] font-semibold text-grafito">
+                Teléfono y dirección
+              </dt>
+              <dd className="mt-1 text-[0.82rem] leading-6 text-grafito/65">
+                No se publican datos de contacto adicionales en este concepto.
+              </dd>
+            </div>
+          </dl>
+
+          <p className="mt-5 text-[0.74rem] leading-5 text-grafito/70">
+            La disponibilidad de canales reales debe definirse antes de publicar
+            el sitio como una firma operativa.
+          </p>
+        </aside>
+
+        <div className="w-full max-w-[620px] lg:justify-self-end">
+          <Suspense fallback={<FormFallback />}>
+            <ContactForm />
+          </Suspense>
         </div>
-      </Container>
-    </section>
+      </div>
+    </Section>
+  );
+}
+
+function FormFallback() {
+  return (
+    <div
+      className="min-h-[420px] border border-grafito/10 bg-concreto/60"
+      aria-hidden="true"
+    />
   );
 }

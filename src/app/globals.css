@@ -2,28 +2,25 @@
 
 /* -------------------------------------------------------------
    TRAZA — Sistema de diseño
-   Ingeniería & Infraestructura (concepto colombiano)
+   Ingeniería & Infraestructura · Colombia
    ------------------------------------------------------------- */
 
 @theme {
-  /* Colores de marca */
+  /* Paleta de marca */
   --color-grafito: #20272D;
   --color-concreto: #F3F1EB;
   --color-naranja: #F07835;
+  --color-naranja-texto: #B34A14;
   --color-verde: #64766A;
   --color-blanco: #FFFFFF;
-
-  /* Semántica sobre la paleta */
-  --color-ink: #20272D;
-  --color-surface: #F3F1EB;
-  --color-surface-alt: #FFFFFF;
-  --color-accent: #F07835;
-  --color-accent-secondary: #64766A;
 
   /* Tipografía */
   --font-sans: var(--font-inter);
   --font-mono: var(--font-geist-mono);
-  --font-display: var(--font-inter);
+
+  /* Retícula y formas */
+  --container-site: 1240px;
+  --radius-card: 2px;
 }
 
 :root {
@@ -33,7 +30,7 @@
 
 html {
   scroll-behavior: smooth;
-  overflow-x: hidden;
+  scroll-padding-top: 5.5rem;
 }
 
 body {
@@ -43,10 +40,64 @@ body {
   font-feature-settings: "tnum" 1, "lnum" 1;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  overflow-x: hidden;
 }
 
-/* Respeto a movimiento reducido */
+::selection {
+  background: var(--color-naranja);
+  color: var(--color-grafito);
+}
+
+/* Foco visible único para toda la interfaz. El anillo doble mantiene
+   contraste tanto sobre concreto como sobre grafito. */
+:where(a, button, input, select, textarea, summary):focus-visible {
+  outline: 2px solid var(--color-naranja);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px rgba(32, 39, 45, 0.85);
+}
+
+/* Etiqueta técnica monoespaciada: coordenadas, ejes y numeración. */
+@utility eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+/* Utilidad de línea técnica. */
+@utility rule-accent {
+  display: inline-block;
+  width: 2rem;
+  height: 1px;
+  background: var(--color-naranja);
+}
+
+/* Acceso rápido al contenido para teclado. */
+.skip-link {
+  position: fixed;
+  top: 0.75rem;
+  left: 0.75rem;
+  z-index: 200;
+  transform: translateY(-200%);
+  border: 1px solid var(--color-grafito);
+  border-radius: var(--radius-card);
+  background: var(--color-concreto);
+  padding: 0.65rem 1rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--color-grafito);
+  transition: transform 150ms ease;
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+}
+
+#contenido-principal:focus {
+  outline: none;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -56,50 +107,4 @@ body {
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
-}
-
-/* Números técnicos: alineación de ancho fijo */
-.td-num {
-  font-variant-numeric: tabular-nums;
-  font-feature-settings: "tnum" 1;
-}
-
-/* Líneas reticulares / señalización técnica (usadas con moderación) */
-.reticle {
-  position: relative;
-  overflow: hidden;
-}
-.reticle::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background-image:
-    linear-gradient(rgba(32, 39, 45, 0.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(32, 39, 45, 0.04) 1px, transparent 1px);
-  background-size: 32px 32px;
-  pointer-events: none;
-  z-index: 0;
-}
-
-/* Línea vertical de conexión técnica */
-.linea-conexion {
-  position: relative;
-}
-.linea-conexion::before {
-  content: "";
-  position: absolute;
-  left: 50%;
-  top: 0;
-  bottom: 0;
-  width: 1px;
-  background: #20272D;
-  opacity: 0.15;
-  z-index: 0;
-}
-
-/* Suavizado de imágenes para evitar saltos de layout */
-img {
-  display: block;
-  max-width: 100%;
-  height: auto;
 }

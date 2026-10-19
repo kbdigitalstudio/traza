@@ -27,10 +27,9 @@ export const proyectos: Proyecto[] = [
     location: "Villavicencio, Meta",
     description:
       "Diseño y planeación de un corredor vial de doble calzada que mejora la conectividad entre centros urbanos y zonas de influencia, con drenaje transversal y obras de arte menores integradas al trazo.",
-    image:
-      "https://images.unsplash.com/photo-1445034268571-0c6be767131b?fm=jpg&q=60&w=1600&auto=format&fit=crop",
+    image: "/images/proyecto-vial.jpg",
     imageAlt:
-      "Carretera de doble calzada con paisaje de montaña y cielo despejado, infraestructura vial.",
+      "Puente atirantado de concreto sobre un río, rodeado de vegetación; fotografía ilustrativa de infraestructura vial.",
     status: "Proyecto conceptual",
     scope:
       "Alcance conceptual: estudio de trazado, drenaje transversal y obras de arte menores. Dimensiones y costos no definidos.",
@@ -43,10 +42,9 @@ export const proyectos: Proyecto[] = [
     location: "Medellín, Antioquia",
     description:
       "Sistema estructural de concreto armado para edificio de usos múltiples, con retícula de columnas y vigas pensada para optimizar cargas y claros de planta.",
-    image:
-      "https://images.unsplash.com/photo-1613694437268-b8b2a5f98f16?fm=jpg&q=60&w=1600&auto=format&fit=crop",
+    image: "/images/proyecto-estructura.jpg",
     imageAlt:
-      "Estructura de concreto armado con columnas y vigas vista, detalle técnico de edificación.",
+      "Vista inferior de un viaducto de concreto con columnas y vigas; fotografía ilustrativa de estructura.",
     status: "Proyecto conceptual",
     scope:
       "Alcance conceptual: modelo estructural, retícula de cimentación y elementos de contención. Capacidades de carga no especificadas.",
@@ -59,10 +57,9 @@ export const proyectos: Proyecto[] = [
     location: "Zipaquirá, Cundinamarca",
     description:
       "Proyecto arquitectónico y estructural de equipamiento público de dos niveles, con acceso universal, espacios de atención y zonas técnicas de servicios.",
-    image:
-      "https://images.unsplash.com/photo-1593347039453-c1c8df3a5631?fm=jpg&q=60&w=1600&auto=format&fit=crop",
+    image: "/images/proyecto-edificacion.jpg",
     imageAlt:
-      "Edificio institucional contemporáneo de concreto con acceso y áreas públicas.",
+      "Edificio institucional contemporáneo de fachada clara y volumen angular; fotografía ilustrativa de edificación.",
     status: "Proyecto conceptual",
     scope:
       "Alcance conceptual: arquitectura, estructura y obras de acabado. No se indican superficies ni costos ejecutados.",
@@ -74,11 +71,10 @@ export const proyectos: Proyecto[] = [
     category: "Obras hidráulicas",
     location: "Cali, Valle del Cauca",
     description:
-      "Red de drenaje pluvial y obras de control de caudal para mitigate de inundaciones en zona urbana, con cámaras de visita y conductos de conducción.",
-    image:
-      "https://images.unsplash.com/photo-1683006386198-634a4ab121bd?fm=jpg&q=60&w=1600&auto=format&fit=crop",
+      "Red de drenaje pluvial y obras de control de caudal para mitigar inundaciones en zona urbana, con cámaras de visita y conductos de conducción.",
+    image: "/images/proyecto-hidraulica.jpg",
     imageAlt:
-      "Infraestructura de drenaje hidráulico con canales y estructuras de control de agua.",
+      "Puente sobre un embalse entre montañas; fotografía ilustrativa de obras hidráulicas y territorio.",
     status: "Proyecto conceptual",
     scope:
       "Alcance conceptual: red de colectores, cámaras y obras de disipación. Caudales y capacidades no informadas.",

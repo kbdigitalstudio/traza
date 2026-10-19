@@ -4,7 +4,7 @@ import { Servicios } from "@/components/secciones/Servicios";
 import { MetodoTrabajo } from "@/components/secciones/MetodoTrabajo";
 import { Enfoque } from "@/components/secciones/Enfoque";
 import { Cobertura } from "@/components/secciones/Cobertura";
-import { CTA } from "@/components/secciones/CTA";
+import { ContactoHome } from "@/components/secciones/ContactoHome";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -15,14 +15,14 @@ export const metadata: Metadata = {
 
 export default function Home() {
   return (
-    <div className="flex flex-col">
+    <>
       <Hero />
       <ProyectosDestacados />
       <Servicios />
       <MetodoTrabajo />
       <Enfoque />
       <Cobertura />
-      <CTA />
-    </div>
+      <ContactoHome />
+    </>
   );
 }

@@ -1,10 +1,12 @@
 "use client";
 
 import Link from "next/link";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { usePathname } from "next/navigation";
+import { useEffect, useRef, useState } from "react";
 import { Logo } from "./Logo";
-import { Button } from "./ui/button";
 import { Container } from "@/components/Container";
+import { buttonVariants } from "@/components/ui/button-variants";
+import { cn } from "@/lib/utils";
 
 type NavLink = {
   href: string;
@@ -19,153 +21,168 @@ const NAV_LINKS: NavLink[] = [
   { href: "/contacto", label: "Contacto" },
 ];
 
+function isActivePath(pathname: string, href: string) {
+  if (href === "/") return pathname === "/";
+  return pathname === href || pathname.startsWith(`${href}/`);
+}
+
 export function Navigation() {
+  const pathname = usePathname();
+  const isHome = pathname === "/";
   const [isOpen, setIsOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const menuRef = useRef<HTMLDivElement | null>(null);
   const buttonRef = useRef<HTMLButtonElement | null>(null);
-  const previousFocusRef = useRef<HTMLElement | null>(null);
 
-  const closeMenu = useCallback(() => {
-    setIsOpen(false);
-    if (buttonRef.current) {
-      buttonRef.current.focus();
-    }
+  const solid = !isHome || scrolled || isOpen;
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 24);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const handleLinkClick = useCallback(() => {
-    closeMenu();
-  }, [closeMenu]);
-
   useEffect(() => {
-    if (isOpen) {
-      previousFocusRef.current = document.activeElement as HTMLElement;
-      buttonRef.current?.setAttribute("aria-expanded", "true");
-      menuRef.current?.setAttribute("data-open", "true");
-      const firstFocusable = menuRef.current?.querySelector(
-        'a, button'
-      ) as HTMLElement | null;
-      if (firstFocusable) {
-        firstFocusable.focus();
-      }
-    } else {
-      buttonRef.current?.setAttribute("aria-expanded", "false");
-      menuRef.current?.removeAttribute("data-open");
-      if (previousFocusRef.current) {
-        previousFocusRef.current.focus();
-      }
-    }
-  }, [isOpen]);
+    if (!isOpen) return;
 
-  useEffect(() => {
-    function onKeyDown(event: KeyboardEvent) {
-      if (event.key === "Escape" && isOpen) {
-        closeMenu();
+    const firstLink = menuRef.current?.querySelector("a") as HTMLElement | null;
+    firstLink?.focus();
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setIsOpen(false);
+        buttonRef.current?.focus();
       }
-    }
+    };
+
     document.addEventListener("keydown", onKeyDown);
     return () => document.removeEventListener("keydown", onKeyDown);
-  }, [isOpen, closeMenu]);
-
-  const [isMobileMenu, setIsMobileMenu] = useState<boolean | null>(null);
-
-  useEffect(() => {
-    const check = () => setIsMobileMenu(window.innerWidth < 768);
-    check();
-    window.addEventListener("resize", check);
-    return () => window.removeEventListener("resize", check);
-  }, []);
+  }, [isOpen]);
 
   return (
     <nav
-      className="fixed inset-x-0 top-0 z-40"
       aria-label="Navegación principal"
+      className={cn(
+        "fixed inset-x-0 top-0 z-50 border-b transition-colors duration-300",
+        solid
+          ? "border-grafito/10 bg-concreto"
+          : "border-transparent bg-transparent"
+      )}
     >
-      <div className="bg-concreto/90 backdrop-blur supports-[backdrop-filter]:bg-concreto/70 border-b border-grafito/10">
-        <Container className="flex h-14 items-center justify-between">
-          <div className="flex shrink-0 items-center gap-2">
-            <Link href="/" className="flex items-center gap-2" onClick={handleLinkClick}>
-              <Logo size="sm" withDescriptor={false} />
-              <span className="hidden sm:block text-[0.7rem] tracking-widest uppercase font-semibold text-grafito/70">
-                Traza
-              </span>
-            </Link>
-          </div>
+      <Container className="flex h-16 items-center justify-between gap-4">
+        <Link href="/" className="shrink-0" onClick={() => setIsOpen(false)}>
+          <Logo size="sm" withDescriptor={false} variant={solid ? "default" : "inverse"} />
+          <span className="sr-only">Inicio</span>
+        </Link>
 
-          <div className="hidden md:flex items-center gap-x-6 text-[0.78rem] font-semibold tracking-wide uppercase">
-            {NAV_LINKS.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className="text-grafito hover:text-naranja transition-colors focus-visible:ring-2 focus-visible:ring-naranja focus-visible:rounded-sm focus-visible:px-1"
-                onClick={handleLinkClick}
-              >
-                {link.label}
-              </Link>
-            ))}
+        <div className="hidden items-center gap-6 md:flex lg:gap-8">
+          <ul className="flex items-center gap-5 lg:gap-7">
+            {NAV_LINKS.map((link) => {
+              const active = isActivePath(pathname, link.href);
+              return (
+                <li key={link.href}>
+                  <Link
+                    href={link.href}
+                    aria-current={active ? "page" : undefined}
+                    className={cn(
+                      "relative py-1 text-[0.72rem] font-semibold uppercase tracking-[0.12em] transition-colors",
+                      solid
+                        ? active
+                          ? "text-grafito"
+                          : "text-grafito/70 hover:text-grafito"
+                        : active
+                          ? "text-concreto"
+                          : "text-concreto/75 hover:text-concreto",
+                      active &&
+                        "after:absolute after:-bottom-0.5 after:left-0 after:h-px after:w-full after:bg-naranja"
+                    )}
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              );
+            })}
+          </ul>
+
+          <Link
+            href="/contacto"
+            className={buttonVariants({ variant: "primary", size: "sm" })}
+          >
+            Solicitar cotización
+          </Link>
+        </div>
+
+        <button
+          ref={buttonRef}
+          type="button"
+          aria-expanded={isOpen}
+          aria-controls={isOpen ? "menu-movil" : undefined}
+          aria-label={isOpen ? "Cerrar menú" : "Abrir menú"}
+          onClick={() => setIsOpen((value) => !value)}
+          className={cn(
+            "inline-flex h-11 w-11 items-center justify-center rounded-card border transition-colors md:hidden",
+            solid
+              ? "border-grafito/25 text-grafito hover:border-grafito/60"
+              : "border-concreto/35 text-concreto hover:border-concreto/70"
+          )}
+        >
+          {isOpen ? (
+            <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" strokeWidth="1.6">
+              <path d="M5 5l14 14M19 5L5 19" />
+            </svg>
+          ) : (
+            <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" strokeWidth="1.6">
+              <path d="M3 7h18M3 12h18M3 17h18" />
+            </svg>
+          )}
+        </button>
+      </Container>
+
+      {isOpen && (
+        <div
+          ref={menuRef}
+          id="menu-movil"
+          aria-label="Navegación móvil"
+          className="absolute inset-x-0 top-full max-h-[calc(100dvh-4rem)] overflow-y-auto border-b border-grafito/10 bg-concreto md:hidden"
+        >
+          <Container className="py-3">
+            <ul className="divide-y divide-grafito/10">
+              {NAV_LINKS.map((link) => {
+                const active = isActivePath(pathname, link.href);
+                return (
+                  <li key={link.href}>
+                    <Link
+                      href={link.href}
+                      onClick={() => setIsOpen(false)}
+                      aria-current={active ? "page" : undefined}
+                      className={cn(
+                        "flex min-h-11 items-center justify-between text-sm font-medium",
+                        active ? "text-grafito" : "text-grafito/65"
+                      )}
+                    >
+                      {link.label}
+                      {active && (
+                        <span className="h-px w-6 bg-naranja" aria-hidden="true" />
+                      )}
+                    </Link>
+                  </li>
+                );
+              })}
+            </ul>
             <Link
               href="/contacto"
-              className="rounded-full bg-white text-grafito px-4 py-2 text-[0.75rem] shadow-sm hover:bg-grafito hover:text-white transition-colors focus-visible:ring-2 focus-visible:ring-naranja"
-              onClick={handleLinkClick}
+              onClick={() => setIsOpen(false)}
+              className={cn(
+                buttonVariants({ variant: "primary", size: "md" }),
+                "mt-4 w-full"
+              )}
             >
               Solicitar cotización
             </Link>
-          </div>
-
-          <div className="md:hidden flex items-center">
-            <Button
-              ref={buttonRef}
-              variant="ghost"
-              size="sm"
-              aria-expanded={isOpen}
-              aria-controls="traza-mobile-menu"
-              onClick={() => setIsOpen((prev) => !prev)}
-            >
-              {isOpen ? "Cerrar menú" : "Abrir menú"}
-            </Button>
-          </div>
-        </Container>
-
-        {isMobileMenu && (
-          <div
-            ref={menuRef}
-            id="traza-mobile-menu"
-            role="menu"
-            aria-orientation="vertical"
-            className={`md:hidden bg-concreto border-t border-grafito/10 ${
-              isOpen ? "max-h-[60vh] opacity-100 mt-0" : "max-h-0 opacity-0 mt-2 overflow-hidden"
-            }`}
-            style={{
-              transitionProperty: "max-height, opacity",
-              transitionTimingFunction: "cubic-bezier(0.4, 0, 0.2, 1)",
-              transitionDuration: "300ms",
-            }}
-          >
-            <div className="px-4 py-4 space-y-1">
-              {NAV_LINKS.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  role="menuitem"
-                  onClick={handleLinkClick}
-                  className="block rounded-lg px-4 py-3 text-left text-[0.85rem] font-semibold tracking-wide uppercase text-grafito hover:bg-grafito/5 hover:text-naranja transition-colors focus-visible:ring-2 focus-visible:ring-naranja focus-visible:outline-none"
-                >
-                  {link.label}
-                </Link>
-              ))}
-              <div className="pt-4 border-t border-grafito/10">
-                <Link
-                  href="/contacto"
-                  role="menuitem"
-                  onClick={handleLinkClick}
-                  className="block w-full rounded-full bg-naranja text-white px-4 py-3 text-[0.8rem] font-semibold text-center shadow-sm hover:bg-naranja/90 transition-colors focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none"
-                >
-                  Solicitar cotización
-                </Link>
-              </div>
-            </div>
-          </div>
-        )}
-      </div>
+          </Container>
+        </div>
+      )}
     </nav>
   );
 }

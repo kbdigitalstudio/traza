@@ -1,5 +1,5 @@
+import { Section } from "@/components/Section";
 import { SectionTitle } from "@/components/SectionTitle";
-import { Container } from "@/components/Container";
 
 const REGIONES = [
   { nombre: "Meta", zona: "Orinoquía", ejemplo: "Infraestructura vial" },
@@ -10,44 +10,49 @@ const REGIONES = [
 
 export function Cobertura() {
   return (
-    <section id="cobertura" className="bg-concreto py-16 md:py-20 lg:py-24">
-      <Container>
-        <SectionTitle
-          etiqueta="Contexto"
-          title="Colombia."
-          description={
-            "Referencias visuales del territorio donde se desarrolla el concepto. No se afirman oficinas ni cobertura operativa confirmada en ciudades específicas."
-          }
-        />
+    <Section id="cobertura" tone="concreto">
+      <SectionTitle
+        etiqueta="Contexto territorial"
+        title="Colombia, en cuatro referencias."
+        description="Geografías que inspiran el concepto. No se afirman oficinas, sedes ni cobertura operativa confirmada."
+      />
 
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-5 lg:gap-6 mt-3">
-          {REGIONES.map((region) => (
-            <article
-              key={region.nombre}
-              className="rounded-md border border-grafito/15 bg-white p-4 md:p-5 flex flex-col"
-            >
-              <div className="flex items-center gap-2 mb-3">
-                <div className="w-1 h-3 bg-naranja" />
-                <span className="text-[0.68rem] font-bold text-grafito tracking-wider uppercase">
-                  Referencia
-                </span>
-              </div>
-              <h3 className="text-grafito font-bold text-lg tracking-tight mb-1">
-                {region.nombre}
-              </h3>
-              <p className="text-[0.8rem] text-grafito/50">{region.zona}</p>
-              <p className="mt-auto text-[0.8rem] italic text-grafito/40">
-                Ejemplo: {region.ejemplo}
-              </p>
-            </article>
-          ))}
+      <div className="border-t border-grafito/20">
+        <div className="hidden grid-cols-[1.2fr_0.8fr_1.4fr] gap-6 border-b border-grafito/10 py-2 sm:grid">
+          <p className="eyebrow text-grafito/70">Región</p>
+          <span className="eyebrow text-grafito/70">Zona</span>
+          <span className="eyebrow text-grafito/70">Ejemplo de práctica</span>
         </div>
 
-        <p className="mt-8 text-[0.78rem] text-grafito/50 max-w-md">
-          Estas regiones son referencias del concepto, no sedes operativas
-          confirmadas de TRAZA.
-        </p>
-      </Container>
-    </section>
+        <ul>
+          {REGIONES.map((region, index) => (
+            <li
+              key={region.nombre}
+              className="grid gap-1 border-b border-grafito/10 py-4 sm:grid-cols-[1.2fr_0.8fr_1.4fr] sm:items-center sm:gap-6"
+            >
+              <div className="flex items-baseline gap-3">
+                <span className="font-mono text-[0.62rem] text-naranja-texto">
+                  0{index + 1}
+                </span>
+                <span className="text-lg font-bold tracking-[-0.02em] text-grafito">
+                  {region.nombre}
+                </span>
+              </div>
+              <p className="pl-7 text-[0.82rem] text-grafito/70 sm:pl-0">
+                {region.zona}
+              </p>
+              <p className="pl-7 text-[0.82rem] text-grafito/70 sm:pl-0">
+                {region.ejemplo}
+              </p>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <p className="mt-6 max-w-[64ch] text-[0.74rem] leading-5 text-grafito/70">
+        Regiones de referencia del concepto. No corresponden a sedes operativas
+        ni a proyectos ejecutados.
+      </p>
+    </Section>
   );
 }

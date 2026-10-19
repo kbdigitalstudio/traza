@@ -1,9 +1,11 @@
 "use client";
 
-import Link from "next/link";
-import { useState } from "react";
-import { Button, cn } from "@/components/ui/button";
-import { servicioPorSlug } from "@/data/servicios";
+import { useEffect, useRef, useState } from "react";
+import { useSearchParams } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button-variants";
+import { servicioPorSlug, servicios } from "@/data/servicios";
+import { cn } from "@/lib/utils";
 
 type FormData = {
   nombre: string;
@@ -14,27 +16,33 @@ type FormData = {
   mensaje: string;
 };
 
-type FormState = "idle" | "sending" | "success" | "error";
+type FormState = "idle" | "demo";
 
-type ContactFormProps = {
-  searchParamsServicio?: string;
-};
+const FIELD_ORDER: (keyof FormData)[] = [
+  "nombre",
+  "email",
+  "tipoProyecto",
+  "ubicacion",
+  "mensaje",
+];
 
-export function ContactForm({
-  searchParamsServicio,
-}: ContactFormProps) {
-  const servicioDesdeURL = searchParamsServicio
-    ? servicioPorSlug(searchParamsServicio)
-    : null;
+const fieldBase =
+  "block w-full rounded-card border bg-white px-3 py-2.5 text-sm leading-6 text-grafito transition-colors placeholder:text-grafito/70 focus:border-naranja";
+
+export function ContactForm() {
+  const searchParams = useSearchParams();
+  const servicioDesdeURL = servicioPorSlug(searchParams.get("servicio") ?? "");
   const servicioSeleccionado = servicioDesdeURL?.title ?? null;
 
   const [state, setState] = useState<FormState>("idle");
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const shouldFocusErrors = useRef(false);
+  const demoHeadingRef = useRef<HTMLHeadingElement>(null);
   const [formData, setFormData] = useState<FormData>({
     nombre: "",
     email: "",
     empresa: "",
-    tipoProyecto: servicioDesdeURL ? servicioDesdeURL.title : "",
+    tipoProyecto: servicioDesdeURL?.slug ?? "",
     ubicacion: "",
     mensaje: "",
   });
@@ -42,149 +50,221 @@ export function ContactForm({
   const validate = (): boolean => {
     const next: Record<string, string> = {};
     if (!formData.nombre.trim()) next.nombre = "El nombre es obligatorio.";
-    if (!formData.email.trim())
+    if (!formData.email.trim()) {
       next.email = "El correo electrónico es obligatorio.";
-    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email))
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
       next.email = "Correo electrónico no válido.";
-    if (!formData.tipoProyecto.trim())
+    }
+    if (!formData.tipoProyecto.trim()) {
       next.tipoProyecto = "Selecciona un tipo de proyecto.";
-    if (!formData.ubicacion.trim())
+    }
+    if (!formData.ubicacion.trim()) {
       next.ubicacion = "La ubicación del proyecto es obligatoria.";
-    if (!formData.mensaje.trim()) next.mensaje = "Describe tu necesidad.";
+    }
+    if (!formData.mensaje.trim()) {
+      next.mensaje = "Describe tu necesidad.";
+    }
     setErrors(next);
+    shouldFocusErrors.current = Object.keys(next).length > 0;
     return Object.keys(next).length === 0;
   };
 
+  useEffect(() => {
+    if (state === "demo") demoHeadingRef.current?.focus();
+  }, [state]);
+
+  useEffect(() => {
+    if (!shouldFocusErrors.current) return;
+    shouldFocusErrors.current = false;
+    const firstInvalid = FIELD_ORDER.find((field) => errors[field]);
+    if (firstInvalid) document.getElementById(firstInvalid)?.focus();
+  }, [errors]);
+
+  const handleReturn = () => {
+    setState("idle");
+    window.setTimeout(() => {
+      document.getElementById("nombre")?.focus();
+    }, 0);
+  };
+
   const handleChange = (key: keyof FormData, value: string) => {
-    setFormData((prev) => ({ ...prev, [key]: value }));
-    if (errors[key])
-      setErrors((prev) => ({ ...prev, [key]: "" }));
+    setFormData((previous) => ({ ...previous, [key]: value }));
+    if (errors[key]) {
+      setErrors((previous) => ({ ...previous, [key]: "" }));
+    }
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
     if (!validate()) return;
-
-    setState("sending");
-
-    await new Promise((resolve) => setTimeout(resolve, 1200));
-
-    setState("success");
+    setState("demo");
   };
+
+  if (state === "demo") {
+    return (
+      <div
+        role="region"
+        aria-labelledby="demo-title"
+        className="border border-naranja/45 bg-naranja/5 p-5 md:p-6"
+      >
+        <p className="eyebrow text-naranja-texto">Modo demostración</p>
+        <h3
+          ref={demoHeadingRef}
+          id="demo-title"
+          tabIndex={-1}
+          className="mt-2 text-lg font-bold tracking-[-0.02em] text-grafito"
+        >
+          El formulario no está conectado a un servicio de envío.
+        </h3>
+        <p className="mt-2 max-w-[58ch] text-[0.88rem] leading-6 text-grafito/65">
+          Los campos se validaron correctamente, pero este concepto no tiene
+          backend, correo ni CRM configurados. No se envió ningún mensaje. Para
+          activar el envío real, integra el formulario con el servicio que
+          defina la firma.
+        </p>
+        <button
+          type="button"
+          onClick={handleReturn}
+          className={cn(buttonVariants({ variant: "outline", size: "sm" }), "mt-5")}
+        >
+          Volver al formulario
+        </button>
+      </div>
+    );
+  }
 
   return (
-    <>
-      {state === "success" ? (
-        <div className="rounded-md border border-naranja/30 bg-naranja/5 p-6 md:p-10" role="status" aria-live="polite">
-          <h2 className="font-bold text-naranja text-xl tracking-tight mb-3">
-            Mensaje recibido
-          </h2>
-          <p className="text-grafito/70 text-lg leading-7 mb-6">
-            Gracias por contactarnos. Hemos recibido tu consulta y nos
-            comunicaremos contigo para coordinar los siguientes pasos.
+    <form
+      onSubmit={handleSubmit}
+      className="space-y-4"
+      noValidate
+      aria-label="Formulario de contacto"
+    >
+      {servicioSeleccionado && formData.tipoProyecto === servicioDesdeURL?.slug && (
+        <div className="border border-naranja/35 bg-naranja/5 px-3 py-2.5">
+          <p className="eyebrow text-naranja-texto">Solicitud de cotización</p>
+          <p className="mt-1 text-[0.85rem] font-semibold text-grafito">
+            {servicioSeleccionado}
           </p>
-          <Link
-            href="/"
-            className={cn(
-              "inline-flex items-center gap-2 rounded-md bg-grafito text-white px-4 py-2 text-sm font-semibold hover:bg-grafito/90 transition-colors focus-visible:ring-2 focus-visible:ring-naranja focus-visible:outline-none"
-            )}
-          >
-            Volver al inicio{" "}<span aria-hidden="true">→</span>
-          </Link>
         </div>
-      ) : (
-        <form
-          onSubmit={handleSubmit}
-          className="space-y-5"
-          noValidate
-          aria-label="Formulario de contacto"
-        >
-          {servicioSeleccionado && (
-            <div className="rounded-md bg-naranja/10 p-3 border border-naranja/20">
-              <p className="text-[0.78rem] text-naranja font-medium mb-2">
-                Solicitud de cotización:
-              </p>
-              <p className="text-[0.85rem] text-grafito/70 font-semibold">
-                {servicioSeleccionado}
-              </p>
-            </div>
-          )}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-            <TextField
-              label="Nombre completo"
-              name="nombre"
-              value={formData.nombre}
-              onChange={(v) => handleChange("nombre", v)}
-              error={errors.nombre}
-              required
-            />
-            <TextField
-              label="Correo electrónico"
-              name="email"
-              type="email"
-              value={formData.email}
-              onChange={(v) => handleChange("email", v)}
-              error={errors.email}
-              required
-            />
-          </div>
-          <TextField
-            label="Empresa (opcional)"
-            name="empresa"
-            value={formData.empresa}
-            onChange={(v) => handleChange("empresa", v)}
-          />
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-            <SelectField
-              label="Tipo de proyecto"
-              name="tipoProyecto"
-              value={formData.tipoProyecto}
-              onChange={(v) => handleChange("tipoProyecto", v)}
-              error={errors.tipoProyecto}
-              required
-            >
-              <option value="">Seleccionar tipo de proyecto</option>
-              <option value="infraestructura-vial">Infraestructura vial</option>
-              <option value="estructuras">Estructuras de concreto</option>
-              <option value="edificacion">Edificación institucional</option>
-              <option value="hidraulica">Obras hidráulicas y drenaje</option>
-              <option value="consultoria">Consultoría de ingeniería</option>
-              <option value="otro">Otro</option>
-            </SelectField>
-            <TextField
-              label="Ubicación del proyecto"
-              name="ubicacion"
-              value={formData.ubicacion}
-              onChange={(v) => handleChange("ubicacion", v)}
-              placeholder="Ej: Municipio, departamento"
-              required
-            />
-          </div>
-          <TextAreaField
-            label="Descripción de la necesidad"
-            name="mensaje"
-            value={formData.mensaje}
-            onChange={(v) => handleChange("mensaje", v)}
-            error={errors.mensaje}
-            required
-          />
-          <div className="pt-2">
-            <Button
-              type="submit"
-              variant="primary"
-              size="lg"
-              disabled={state === "sending"}
-            >
-              {state === "sending" ? "Enviando…" : "Solicitar contacto"}
-            </Button>
-            <p className="mt-3 text-[0.72rem] text-grafito/40 max-w-md">
-              Esta es una experiencia demostrativa de interfaz. No se expone
-              ningún backend ni clave privada en el navegador.
-            </p>
-          </div>
-        </form>
       )}
-    </>
+
+      <div className="grid gap-4 sm:grid-cols-2">
+        <TextField
+          label="Nombre completo"
+          name="nombre"
+          autoComplete="name"
+          value={formData.nombre}
+          onChange={(value) => handleChange("nombre", value)}
+          error={errors.nombre}
+          required
+        />
+        <TextField
+          label="Correo electrónico"
+          name="email"
+          type="email"
+          autoComplete="email"
+          value={formData.email}
+          onChange={(value) => handleChange("email", value)}
+          error={errors.email}
+          required
+        />
+      </div>
+
+      <TextField
+        label="Empresa (opcional)"
+        name="empresa"
+        autoComplete="organization"
+        value={formData.empresa}
+        onChange={(value) => handleChange("empresa", value)}
+      />
+
+      <div className="grid gap-4 sm:grid-cols-2">
+        <SelectField
+          label="Tipo de proyecto"
+          name="tipoProyecto"
+          value={formData.tipoProyecto}
+          onChange={(value) => handleChange("tipoProyecto", value)}
+          error={errors.tipoProyecto}
+          required
+        >
+          <option value="">Seleccionar tipo de proyecto</option>
+          {servicios.map((servicio) => (
+            <option key={servicio.slug} value={servicio.slug}>
+              {servicio.title}
+            </option>
+          ))}
+          <option value="otro">Otro / no estoy seguro</option>
+        </SelectField>
+        <TextField
+          label="Ubicación del proyecto"
+          name="ubicacion"
+          autoComplete="address-level1"
+          value={formData.ubicacion}
+          onChange={(value) => handleChange("ubicacion", value)}
+          placeholder="Ej: Municipio, departamento"
+          error={errors.ubicacion}
+          required
+        />
+      </div>
+
+      <TextAreaField
+        label="Descripción de la necesidad"
+        name="mensaje"
+        value={formData.mensaje}
+        onChange={(value) => handleChange("mensaje", value)}
+        error={errors.mensaje}
+        required
+      />
+
+      <div className="flex flex-col gap-3 pt-1 sm:flex-row sm:items-center">
+        <Button type="submit" variant="primary" size="lg">
+          Revisar solicitud
+          <span aria-hidden="true">→</span>
+        </Button>
+        <p className="max-w-[42ch] text-[0.7rem] leading-5 text-grafito/70">
+          Formulario de demostración: valida los campos, pero no envía datos ni
+          correos.
+        </p>
+      </div>
+    </form>
+  );
+}
+
+function FieldLabel({
+  htmlFor,
+  children,
+  required,
+}: {
+  htmlFor: string;
+  children: React.ReactNode;
+  required?: boolean;
+}) {
+  return (
+    <label
+      htmlFor={htmlFor}
+      className="block text-[0.75rem] font-semibold uppercase tracking-[0.08em] text-grafito/70"
+    >
+      {children}
+      {required && (
+        <span className="ml-1 text-naranja-texto" aria-hidden="true">
+          *
+        </span>
+      )}
+    </label>
+  );
+}
+
+function ErrorMessage({ name, error }: { name: string; error?: string }) {
+  if (!error) return null;
+  return (
+    <p
+      id={`${name}-error`}
+      className="text-[0.75rem] leading-5 text-naranja-texto"
+      role="alert"
+    >
+      {error}
+    </p>
   );
 }
 
@@ -197,48 +277,37 @@ function TextField({
   type = "text",
   placeholder,
   required,
+  autoComplete,
 }: {
   label: string;
   name: string;
   value: string;
-  onChange: (v: string) => void;
+  onChange: (value: string) => void;
   error?: string;
   type?: string;
   placeholder?: string;
   required?: boolean;
+  autoComplete?: string;
 }) {
   return (
-    <div className="space-y-2">
-      <label
-        htmlFor={name}
-        className="block text-[0.78rem] font-semibold text-grafito tracking-wide uppercase"
-      >
+    <div className="space-y-1.5">
+      <FieldLabel htmlFor={name} required={required}>
         {label}
-      </label>
+      </FieldLabel>
       <input
         id={name}
         name={name}
         type={type}
         value={value}
-        onChange={(e) => onChange(e.target.value)}
+        onChange={(event) => onChange(event.target.value)}
         placeholder={placeholder}
         required={required}
-        aria-invalid={!!error}
-        aria-errormessage={error ? `${name}-error` : undefined}
-        className={cn(
-          "block w-full rounded-md border px-3 py-2.5 text-sm leading-6",
-          "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-naranja",
-          error
-            ? "border-naranja text-grafito"
-            : "border-grafito/30 text-grafito",
-          "placeholder:text-grafito/30"
-        )}
+        autoComplete={autoComplete}
+        aria-invalid={Boolean(error)}
+        aria-describedby={error ? `${name}-error` : undefined}
+        className={cn(fieldBase, error ? "border-naranja-texto" : "border-grafito/45")}
       />
-      {error && (
-        <p id={`${name}-error`} className="text-[0.72rem] text-naranja" role="alert">
-          {error}
-        </p>
-      )}
+      <ErrorMessage name={name} error={error} />
     </div>
   );
 }
@@ -255,41 +324,29 @@ function SelectField({
   label: string;
   name: string;
   value: string;
-  onChange: (v: string) => void;
+  onChange: (value: string) => void;
   error?: string;
   required?: boolean;
   children: React.ReactNode;
 }) {
   return (
-    <div className="space-y-2">
-      <label
-        htmlFor={name}
-        className="block text-[0.78rem] font-semibold text-grafito tracking-wide uppercase"
-      >
+    <div className="space-y-1.5">
+      <FieldLabel htmlFor={name} required={required}>
         {label}
-      </label>
+      </FieldLabel>
       <select
         id={name}
         name={name}
         value={value}
-        onChange={(e) => onChange(e.target.value)}
+        onChange={(event) => onChange(event.target.value)}
         required={required}
-        aria-invalid={!!error}
-        className={cn(
-          "block w-full rounded-md border px-3 py-2.5 text-sm leading-6",
-          "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-naranja",
-          error
-            ? "border-naranja text-grafito"
-            : "border-grafito/30 text-grafito"
-        )}
+        aria-invalid={Boolean(error)}
+        aria-describedby={error ? `${name}-error` : undefined}
+        className={cn(fieldBase, error ? "border-naranja-texto" : "border-grafito/45")}
       >
         {children}
       </select>
-      {error && (
-        <p id={`${name}-error`} className="text-[0.72rem] text-naranja" role="alert">
-          {error}
-        </p>
-      )}
+      <ErrorMessage name={name} error={error} />
     </div>
   );
 }
@@ -305,41 +362,27 @@ function TextAreaField({
   label: string;
   name: string;
   value: string;
-  onChange: (v: string) => void;
+  onChange: (value: string) => void;
   error?: string;
   required?: boolean;
 }) {
   return (
-    <div className="space-y-2">
-      <label
-        htmlFor={name}
-        className="block text-[0.78rem] font-semibold text-grafito tracking-wide uppercase"
-      >
+    <div className="space-y-1.5">
+      <FieldLabel htmlFor={name} required={required}>
         {label}
-      </label>
+      </FieldLabel>
       <textarea
         id={name}
         name={name}
         value={value}
-        onChange={(e) => onChange(e.target.value)}
-        rows={5}
+        onChange={(event) => onChange(event.target.value)}
+        rows={4}
         required={required}
-        aria-invalid={!!error}
-        aria-errormessage={error ? `${name}-error` : undefined}
-        className={cn(
-          "block w-full rounded-md border px-3 py-2.5 text-sm leading-6",
-          "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-naranja",
-          error
-            ? "border-naranja text-grafito"
-            : "border-grafito/30 text-grafito",
-          "placeholder:text-grafito/30"
-        )}
+        aria-invalid={Boolean(error)}
+        aria-describedby={error ? `${name}-error` : undefined}
+        className={cn(fieldBase, "resize-y", error ? "border-naranja-texto" : "border-grafito/45")}
       />
-      {error && (
-        <p id={`${name}-error`} className="text-[0.72rem] text-naranja" role="alert">
-          {error}
-        </p>
-      )}
+      <ErrorMessage name={name} error={error} />
     </div>
   );
 }

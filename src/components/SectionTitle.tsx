@@ -1,50 +1,43 @@
-/**
- * Encabezado de sección con estilo editorial-técnico.
- * Etiqueta superior + titular + línea de cota sutil.
- */
-
 export type SectionTitleProps = {
   etiqueta?: string;
   title: string;
   description?: string;
   className?: string;
+  as?: "h1" | "h2";
 };
 
+/**
+ * Encabezado editorial de sección:
+ * etiqueta técnica + titular + descripción en una misma retícula.
+ */
 export function SectionTitle({
   etiqueta,
   title,
   description,
   className,
+  as = "h2",
 }: SectionTitleProps) {
+  const Heading = as;
+
   return (
-    <div className={["mb-8 md:mb-10 lg:mb-12", className].filter(Boolean).join(" ")}>
-      <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-3 lg:gap-6 mb-4">
-        {etiqueta && (
-          <span className="inline-flex items-center gap-1.5 rounded-full bg-naranja/10 px-3 py-1 text-[0.68rem] font-bold text-naranja tracking-wider uppercase">
-            {etiqueta}
-          </span>
-        )}
-        <div className="flex items-end gap-3">
-          <h2
-            className={[
-              "text-grafito font-black tracking-tight leading-tight",
-              "text-3xl md:text-4xl lg:text-5xl",
-            ].join(" ")}
-          >
-            {title}
-          </h2>
-          <div className="hidden lg:block">
-            <div className="relative w-20 h-[1px] bg-grafito/20 mb-1">
-              <span className="absolute left-0 top-1/2 -translate-y-1/2 w-full h-[1px] bg-naranja" />
-            </div>
-          </div>
-        </div>
-      </div>
-      {description && (
-        <p className="max-w-md text-[0.95rem] leading-7 text-grafito/70 lg:max-w-lg">
-          {description}
+    <header className={["mb-8 md:mb-10", className].filter(Boolean).join(" ")}>
+      {etiqueta && (
+        <p className="eyebrow mb-3 flex items-center gap-2.5 text-grafito/70">
+          <span className="rule-accent" aria-hidden="true" />
+          {etiqueta}
         </p>
       )}
-    </div>
+
+      <div className="grid items-end gap-3 lg:grid-cols-12 lg:gap-8">
+        <Heading className="text-[2rem] font-extrabold leading-[1.06] tracking-[-0.03em] text-grafito text-balance md:text-4xl lg:col-span-7">
+          {title}
+        </Heading>
+        {description && (
+          <p className="max-w-[48ch] text-[0.95rem] leading-7 text-grafito/65 lg:col-span-5 lg:justify-self-end">
+            {description}
+          </p>
+        )}
+      </div>
+    </header>
   );
 }

@@ -1,0 +1,371 @@
+/* -------------------------------------------------------------
+   TRAZA — Introducción cinematográfica
+   Plano técnico que se convierte en obra.
+   ------------------------------------------------------------- */
+
+#traza-intro {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  overflow: hidden;
+  background: #14191d;
+  color: var(--color-concreto);
+  transition: opacity 450ms cubic-bezier(0.4, 0, 0.2, 1);
+  animation: intro-failsafe 7s linear forwards;
+}
+
+#traza-intro.is-closing {
+  opacity: 0;
+  pointer-events: none;
+}
+
+@keyframes intro-failsafe {
+  0%,
+  99% {
+    visibility: visible;
+  }
+  100% {
+    visibility: hidden;
+    pointer-events: none;
+  }
+}
+
+html[data-intro="skip"] #traza-intro,
+html[data-intro="done"] #traza-intro {
+  display: none;
+}
+
+.intro-grid {
+  position: absolute;
+  inset: -15%;
+  background-image:
+    linear-gradient(rgba(243, 241, 235, 0.055) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(243, 241, 235, 0.055) 1px, transparent 1px),
+    linear-gradient(rgba(243, 241, 235, 0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(243, 241, 235, 0.025) 1px, transparent 1px);
+  background-size:
+    96px 96px,
+    96px 96px,
+    24px 24px,
+    24px 24px;
+  opacity: 0;
+  animation:
+    intro-grid-in 900ms ease-out 120ms forwards,
+    intro-grid-drift 10s linear 120ms forwards;
+}
+
+@keyframes intro-grid-in {
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes intro-grid-drift {
+  to {
+    transform: translate3d(-24px, -24px, 0);
+  }
+}
+
+.intro-vignette {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 50% 52%, transparent 0%, rgba(20, 25, 29, 0.55) 62%, rgba(20, 25, 29, 0.92) 100%),
+    linear-gradient(180deg, rgba(20, 25, 29, 0.35), transparent 35%, rgba(20, 25, 29, 0.65));
+  pointer-events: none;
+}
+
+.intro-drawing {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  animation: intro-drawing-in 400ms ease-out 300ms forwards;
+}
+
+@keyframes intro-drawing-in {
+  to {
+    opacity: 1;
+  }
+}
+
+.intro-drawing [pathLength] {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: intro-draw 1100ms cubic-bezier(0.65, 0, 0.35, 1) forwards;
+}
+
+.intro-drawing .d1 {
+  animation-delay: 380ms;
+}
+.intro-drawing .d2 {
+  animation-delay: 560ms;
+}
+.intro-drawing .d3 {
+  animation-delay: 740ms;
+}
+.intro-drawing .d4 {
+  animation-delay: 920ms;
+}
+.intro-drawing .d5 {
+  animation-delay: 1120ms;
+}
+
+@keyframes intro-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.intro-drawing .marker {
+  opacity: 0;
+  animation: intro-marker-in 380ms ease-out 1450ms forwards;
+}
+
+@keyframes intro-marker-in {
+  to {
+    opacity: 1;
+  }
+}
+
+/* Identidad */
+.intro-identity {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: min(100% - 2.5rem, 72rem);
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  animation:
+    intro-identity-in 750ms cubic-bezier(0.22, 1, 0.36, 1) 1280ms forwards,
+    intro-identity-out 420ms ease-in 2120ms forwards;
+}
+
+@keyframes intro-identity-in {
+  from {
+    opacity: 0;
+    transform: translate(-50%, calc(-50% + 18px));
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
+}
+
+@keyframes intro-identity-out {
+  to {
+    opacity: 0;
+    transform: translate(-50%, calc(-50% - 14px));
+  }
+}
+
+.intro-wordmark {
+  display: flex;
+  align-items: baseline;
+  justify-content: flex-start;
+  gap: 0.02em;
+  font-size: clamp(3.5rem, 11vw, 8.5rem);
+  font-weight: 800;
+  line-height: 0.9;
+  letter-spacing: -0.055em;
+  color: var(--color-concreto);
+}
+
+.intro-wordmark span {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(22px);
+  animation: intro-letter 620ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@keyframes intro-letter {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.intro-wordmark i {
+  display: inline-block;
+  width: clamp(0.45rem, 1.1vw, 0.8rem);
+  height: clamp(0.45rem, 1.1vw, 0.8rem);
+  margin-left: clamp(0.5rem, 1.5vw, 1rem);
+  background: var(--color-naranja);
+  transform: translateY(-0.06em);
+  font-style: normal;
+}
+
+.intro-descriptor {
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(243, 241, 235, 0.2);
+  font-family: var(--font-mono);
+  font-size: clamp(0.62rem, 1.1vw, 0.8rem);
+  font-weight: 500;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: rgba(243, 241, 235, 0.66);
+  opacity: 0;
+  animation: intro-descriptor-in 600ms ease-out 1750ms forwards;
+}
+
+@keyframes intro-descriptor-in {
+  to {
+    opacity: 1;
+  }
+}
+
+/* Metadatos técnicos */
+.intro-meta {
+  position: absolute;
+  color: rgba(243, 241, 235, 0.62);
+  opacity: 0;
+  animation:
+    intro-meta-in 500ms ease-out 620ms forwards,
+    intro-identity-out 360ms ease-in 2120ms forwards;
+}
+
+.intro-meta--tl {
+  top: 1.5rem;
+  left: 1.5rem;
+}
+
+.intro-meta--bl {
+  bottom: 1.5rem;
+  left: 1.5rem;
+}
+
+.intro-meta--br {
+  right: 1.5rem;
+  bottom: 1.5rem;
+}
+
+@keyframes intro-meta-in {
+  to {
+    opacity: 1;
+  }
+}
+
+/* Fotografía: el plano se convierte en obra */
+.intro-photo {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  opacity: 0;
+  clip-path: inset(45% 38% 45% 38%);
+  animation: intro-photo-open 950ms cubic-bezier(0.76, 0, 0.24, 1) 2140ms forwards;
+}
+
+.intro-photo-img {
+  object-fit: cover;
+  object-position: center 55%;
+  filter: brightness(0.78) saturate(0.82) contrast(1.06);
+  transform: scale(1.1);
+  animation: intro-photo-zoom 2000ms cubic-bezier(0.22, 1, 0.36, 1) 2140ms forwards;
+}
+
+.intro-photo-shade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(20, 25, 29, 0.45) 0%,
+    transparent 42%,
+    rgba(20, 25, 29, 0.72) 100%
+  );
+}
+
+@keyframes intro-photo-open {
+  0% {
+    opacity: 0;
+    clip-path: inset(45% 38% 45% 38%);
+  }
+  18% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+@keyframes intro-photo-zoom {
+  to {
+    transform: scale(1);
+  }
+}
+
+/* Control de salida */
+.intro-skip {
+  position: absolute;
+  z-index: 5;
+  top: max(1rem, env(safe-area-inset-top));
+  right: max(1rem, env(safe-area-inset-right));
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 2.75rem;
+  padding: 0.5rem 0.9rem;
+  border: 1px solid rgba(243, 241, 235, 0.35);
+  border-radius: var(--radius-card);
+  background: rgba(20, 25, 29, 0.72);
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-concreto);
+  transition:
+    border-color 200ms ease,
+    color 200ms ease;
+}
+
+.intro-skip:hover {
+  border-color: var(--color-naranja);
+  color: var(--color-naranja);
+}
+
+@media (max-width: 640px) {
+  .intro-meta--br {
+    display: none;
+  }
+
+  .intro-meta--tl {
+    top: 1rem;
+    left: 1rem;
+  }
+
+  .intro-meta--bl {
+    bottom: 1rem;
+    left: 1rem;
+  }
+
+  .intro-identity {
+    width: calc(100% - 2rem);
+  }
+
+  .intro-photo {
+    animation-name: intro-photo-open-mobile;
+  }
+
+  @keyframes intro-photo-open-mobile {
+    0% {
+      opacity: 0;
+      clip-path: inset(42% 12% 42% 12%);
+    }
+    18% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 1;
+      clip-path: inset(0 0 0 0);
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #traza-intro {
+    display: none;
+  }
+}

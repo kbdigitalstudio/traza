@@ -1,6 +1,6 @@
-import { ProjectCard } from "@/components/ProjectCard";
+import { Section } from "@/components/Section";
 import { SectionTitle } from "@/components/SectionTitle";
-import { Container } from "@/components/Container";
+import { ProjectCard } from "@/components/ProjectCard";
 import { proyectos } from "@/data/proyectos";
 import type { Metadata } from "next";
 
@@ -12,27 +12,32 @@ export const metadata: Metadata = {
 
 export default function ProyectosPage() {
   return (
-    <section className="bg-concreto py-16 md:py-20 lg:py-24">
-      <Container>
-        <SectionTitle
-          etiqueta="Portafolio conceptual"
-          title="Proyectos."
-          description={
-            "Casos demostrativos que ilustran el enfoque de TRAZA en distintas ramas de la ingeniería civil. Todas las ubicaciones y datos son parte del concepto y no obras ejecutadas por una empresa real."
-          }
-        />
+    <Section tone="concreto">
+      <SectionTitle
+        as="h1"
+        etiqueta="Portafolio conceptual · 04 casos"
+        title="Proyectos."
+        description="Casos demostrativos que ilustran el enfoque de TRAZA en distintas ramas de la ingeniería civil. Todas las ubicaciones y datos forman parte del concepto y no corresponden a obras ejecutadas."
+      />
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 lg:gap-6">
-          {proyectos.map((proyecto) => (
-            <ProjectCard key={proyecto.slug} proyecto={proyecto} />
-          ))}
-        </div>
+      <div className="grid grid-cols-2 gap-x-4 gap-y-8 sm:gap-x-6 sm:gap-y-9 lg:gap-x-8 lg:gap-y-11">
+        {proyectos.map((proyecto, index) => (
+          <ProjectCard
+            key={proyecto.slug}
+            proyecto={proyecto}
+            index={index}
+            headingLevel="h2"
+          />
+        ))}
+      </div>
 
-        <p className="mt-8 text-[0.78rem] text-grafito/50 max-w-md">
-          Nota: las fotografías son referencias ilustrativas bajo licencia
-          Unsplash y no representan obras propias de TRAZA.
+      <div className="mt-9 flex flex-col gap-2 border-t border-grafito/10 pt-4 sm:flex-row sm:items-center sm:justify-between">
+        <p className="max-w-[62ch] text-[0.74rem] leading-5 text-grafito/70">
+          Fotografías ilustrativas bajo licencia Unsplash. No representan obras
+          propias de TRAZA.
         </p>
-      </Container>
-    </section>
+        <p className="eyebrow shrink-0 text-grafito/70">04 casos / concepto</p>
+      </div>
+    </Section>
   );
 }
