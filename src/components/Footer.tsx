@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { Logo } from "./Logo";
+import { Container } from "@/components/Container";
 
 const FOOTER_LINKS: { label: string; href: string }[] = [
   { label: "Inicio", href: "/" },
@@ -23,7 +24,7 @@ export async function Footer() {
 
   return (
     <footer className="border-t border-grafito/10 bg-grafito text-concreto">
-      <div className="mx-auto max-w-72 px-4 sm:px-6 lg:px-8">
+      <Container>
         <div className="pt-10 md:pt-14 pb-12 md:pb-16 lg:grid lg:grid-cols-4 lg:gap-10">
           {/* Marca */}
           <div className="lg:col-span-1 mb-8 lg:mb-0">
@@ -96,7 +97,7 @@ export async function Footer() {
             Concepto digital desarrollado por <strong className="text-naranja">KB Digital Studio</strong>.
           </p>
         </div>
-      </div>
+      </Container>
     </footer>
   );
 }

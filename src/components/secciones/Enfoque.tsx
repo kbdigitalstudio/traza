@@ -1,4 +1,5 @@
 import { SectionTitle } from "@/components/SectionTitle";
+import { Container } from "@/components/Container";
 
 /**
  * Tres pilares de la propuesta de valor de TRAZA.
@@ -29,7 +30,7 @@ const PILARES = [
 export function Enfoque() {
   return (
     <section id="enfoque" className="bg-white py-20 md:py-28 lg:py-36 border-y border-grafito/10">
-      <div className="mx-auto max-w-72 px-4 sm:px-6 lg:px-8">
+      <Container>
         <SectionTitle
           etiqueta="Propuesta de valor"
           title="Cómo trabajamos."
@@ -59,7 +60,7 @@ export function Enfoque() {
             </article>
           ))}
         </div>
-      </div>
+      </Container>
     </section>
   );
 }

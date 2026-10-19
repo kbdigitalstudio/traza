@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Metadata } from "next";
 import { SectionTitle } from "@/components/SectionTitle";
+import { Container } from "@/components/Container";
 import { ContactForm } from "@/components/ContactForm";
 
 export const metadata: Metadata = {
@@ -18,7 +19,7 @@ export default function ContactoPage({
 
   return (
     <section className="bg-white py-20 md:py-28 lg:py-36 border-y border-grafito/10">
-      <div className="mx-auto max-w-48 px-4 sm:px-6 lg:px-8">
+      <Container>
         <SectionTitle
           etiqueta="Contacto"
           title="Hablemos de tu proyecto."
@@ -59,7 +60,7 @@ export default function ContactoPage({
             </li>
           </ul>
         </div>
-      </div>
+      </Container>
     </section>
   );
 }

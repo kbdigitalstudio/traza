@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
+import { Container } from "@/components/Container";
 
 /**
  * Hero de impacto para TRAZA.
@@ -28,10 +29,11 @@ export function Hero() {
       aria-labelledby="hero-titular"
     >
       {/* Detalle gráfico técnico discreto: retícula en esquina superior derecha */}
-      <div className="absolute top-0 right-0 w-[40vw] h-[40vw] reticle -translate-x-1/4 -translate-y-1/4 pointer-events-none" />
+      <div className="absolute top-0 right-0 w-[20rem] h-[20rem] reticle -translate-x-1/4 -translate-y-1/4 pointer-events-none hidden sm:block" />
 
-      <div className="relative z-10 mx-auto max-w-72 px-4 sm:px-6 lg:px-8">
-        <div className="grid lg:grid-cols-2 lg:gap-12 items-center min-h-[85vh]">
+      <div className="relative z-10">
+        <Container>
+          <div className="grid lg:grid-cols-2 lg:gap-12 items-center min-h-[70vh]">
           {/* Contenido tipográfico */}
           <div className="lg:pr-12 pt-12 lg:pt-0 pb-12 lg:pb-0">
             <span className="inline-flex items-center gap-1.5 rounded-full bg-naranja/15 px-3 py-1.5 text-[0.7rem] font-bold text-naranja tracking-wider uppercase mb-8 block">
@@ -98,7 +100,8 @@ export function Hero() {
               </div>
             </div>
           </div>
-        </div>
+          </div>
+        </Container>
       </div>
 
       {/* Indicador de desplazamiento */}

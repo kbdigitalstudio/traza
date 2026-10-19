@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { type Metadata } from "next";
 import { proyectos, proyectoPorSlug } from "@/data/proyectos";
+import { Container } from "@/components/Container";
 import { cn } from "@/lib/utils";
 
 /**
@@ -53,7 +54,7 @@ export default async function ProyectoDetailPage({
         />
         <div className="absolute inset-0 bg-gradient-to-t from-grafito/95 via-grafito/60 to-transparent" />
         <div className="absolute bottom-0 left-0 right-0 p-6 md:p-10 pb-10 md:pb-16">
-          <div className="mx-auto max-w-48 px-4 sm:px-6 lg:px-8">
+          <Container>
             <span className="inline-flex items-center gap-1.5 rounded-full bg-white/10 backdrop-blur px-3 py-1 text-[0.7rem] font-bold text-concreto tracking-wider uppercase border border-concreto/30">
               {proyecto.status}
             </span>
@@ -63,12 +64,12 @@ export default async function ProyectoDetailPage({
             <p className="mt-4 text-concreto/70 text-lg md:text-xl leading-7 max-w-md">
               {proyecto.category} · {proyecto.location}
             </p>
-          </div>
+          </Container>
         </div>
       </header>
 
       <div className="flex-1">
-        <div className="mx-auto max-w-48 px-4 sm:px-6 lg:px-8 py-20 md:py-28">
+        <Container className="py-20 md:py-28">
           <div className="grid lg:grid-cols-2 lg:gap-12">
             <div className="lg:col-span-2 space-y-8">
               <h2 className="font-black text-grafito text-3xl md:text-4xl tracking-tight leading-tight">
@@ -143,7 +144,7 @@ export default async function ProyectoDetailPage({
               <span aria-hidden="true">→</span>
             </Link>
           </div>
-        </div>
+        </Container>
       </div>
     </article>
   );

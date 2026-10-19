@@ -1,6 +1,7 @@
 "use client";
 
 import { SectionTitle } from "@/components/SectionTitle";
+import { Container } from "@/components/Container";
 
 /**
  * Método de trabajo: cinco etapas representadas sobre una secuencia técnica
@@ -38,7 +39,7 @@ const ETAPAS = [
 export function MetodoTrabajo() {
   return (
     <section id="metodo" className="bg-concreto py-20 md:py-28 lg:py-36">
-      <div className="mx-auto max-w-72 px-4 sm:px-6 lg:px-8">
+      <Container>
         <SectionTitle
           etiqueta="Proceso"
           title="Método de trabajo."
@@ -73,7 +74,7 @@ export function MetodoTrabajo() {
           Cada etapa puede adaptarse a la naturaleza del proyecto. Los plazos
           y entregables se definen por caso.
         </p>
-      </div>
+      </Container>
     </section>
   );
 }

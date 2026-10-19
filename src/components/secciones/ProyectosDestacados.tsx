@@ -1,5 +1,6 @@
 import { SectionTitle } from "@/components/SectionTitle";
 import { ProjectCard } from "@/components/ProjectCard";
+import { Container } from "@/components/Container";
 import { proyectos } from "@/data/proyectos";
 
 /**
@@ -14,7 +15,7 @@ export function ProyectosDestacados() {
 
   return (
     <section id="proyectos" className="bg-concreto py-20 md:py-28 lg:py-36">
-      <div className="mx-auto max-w-72 px-4 sm:px-6 lg:px-8">
+      <Container>
         <SectionTitle
           etiqueta="Portafolio conceptual"
           title="Obras pensadas para durar."
@@ -41,7 +42,7 @@ export function ProyectosDestacados() {
           Nota: las fotografías son referencias ilustrativas bajo licencia
           Unsplash y no representan obras propias de TRAZA.
         </p>
-      </div>
+      </Container>
     </section>
   );
 }

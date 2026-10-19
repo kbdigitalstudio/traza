@@ -1,5 +1,6 @@
 import { ProjectCard } from "@/components/ProjectCard";
 import { SectionTitle } from "@/components/SectionTitle";
+import { Container } from "@/components/Container";
 import { proyectos } from "@/data/proyectos";
 import type { Metadata } from "next";
 
@@ -12,7 +13,7 @@ export const metadata: Metadata = {
 export default function ProyectosPage() {
   return (
     <section className="bg-concreto py-20 md:py-28 lg:py-36">
-      <div className="mx-auto max-w-72 px-4 sm:px-6 lg:px-8">
+      <Container>
         <SectionTitle
           etiqueta="Portafolio conceptual"
           title="Proyectos."
@@ -31,7 +32,7 @@ export default function ProyectosPage() {
           Nota: las fotografías son referencias ilustrativas bajo licencia
           Unsplash y no representan obras propias de TRAZA.
         </p>
-      </div>
+      </Container>
     </section>
   );
 }

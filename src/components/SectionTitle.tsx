@@ -17,13 +17,7 @@ export function SectionTitle({
   className,
 }: SectionTitleProps) {
   return (
-    <div
-      className={[
-        "mx-auto max-w-72 px-4 sm:px-6 lg:px-8",
-        "mb-12 md:mb-16 lg:mb-20",
-        className,
-      ].filter(Boolean).join(" ")}
-    >
+    <div className={["mb-12 md:mb-16 lg:mb-20", className].filter(Boolean).join(" ")}>
       <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-4 lg:gap-8 mb-8">
         {etiqueta && (
           <span className="inline-flex items-center gap-1.5 rounded-full bg-naranja/10 px-3 py-1 text-[0.7rem] font-bold text-naranja tracking-wider uppercase">

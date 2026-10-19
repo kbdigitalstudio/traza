@@ -1,4 +1,5 @@
 import { SectionTitle } from "@/components/SectionTitle";
+import { Container } from "@/components/Container";
 
 /**
  * Cobertura: Colombia como contexto de trabajo.
@@ -15,7 +16,7 @@ const REGIONES = [
 export function Cobertura() {
   return (
     <section id="cobertura" className="bg-concreto py-20 md:py-28 lg:py-36">
-      <div className="mx-auto max-w-72 px-4 sm:px-6 lg:px-8">
+      <Container>
         <SectionTitle
           etiqueta="Contexto"
           title="Colombia."
@@ -51,7 +52,7 @@ export function Cobertura() {
           Estas regiones son referencias del concepto, no sedes operativas
           confirmadas de TRAZA.
         </p>
-      </div>
+      </Container>
     </section>
   );
 }

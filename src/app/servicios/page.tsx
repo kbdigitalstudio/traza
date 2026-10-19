@@ -1,4 +1,5 @@
 import { SectionTitle } from "@/components/SectionTitle";
+import { Container } from "@/components/Container";
 import { ServiceCard } from "@/components/ServiceCard";
 import { servicios } from "@/data/servicios";
 import type { Metadata } from "next";
@@ -12,7 +13,7 @@ export const metadata: Metadata = {
 export default function ServiciosPage() {
   return (
     <section className="bg-white py-20 md:py-28 lg:py-36 border-y border-grafito/10">
-      <div className="mx-auto max-w-72 px-4 sm:px-6 lg:px-8">
+      <Container>
         <SectionTitle
           etiqueta="Áreas de práctica"
           title="Servicios de ingeniería."
@@ -32,7 +33,7 @@ export default function ServiciosPage() {
           sujetos a regulación profesional, consulte los requisitos vigentes en
           su jurisdicción.
         </p>
-      </div>
+      </Container>
     </section>
   );
 }

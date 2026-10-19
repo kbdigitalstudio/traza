@@ -1,4 +1,5 @@
 import { SectionTitle } from "@/components/SectionTitle";
+import { Container } from "@/components/Container";
 import { MetodoTrabajo } from "@/components/secciones/MetodoTrabajo";
 import { Enfoque } from "@/components/secciones/Enfoque";
 import type { Metadata } from "next";
@@ -12,7 +13,7 @@ export const metadata: Metadata = {
 export default function EmpresaPage() {
   return (
     <section className="bg-concreto py-20 md:py-28 lg:py-36">
-      <div className="mx-auto max-w-72 px-4 sm:px-6 lg:px-8">
+      <Container>
         <SectionTitle
           etiqueta="Identidad"
           title="Empresa."
@@ -56,7 +57,7 @@ export default function EmpresaPage() {
         </div>
 
         <Enfoque />
-      </div>
+      </Container>
     </section>
   );
 }

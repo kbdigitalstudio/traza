@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Logo } from "./Logo";
 import { Button } from "./ui/button";
+import { Container } from "@/components/Container";
 
 type NavLink = {
   href: string;
@@ -84,7 +85,7 @@ export function Navigation() {
       aria-label="Navegación principal"
     >
       <div className="bg-concreto/90 backdrop-blur supports-[backdrop-filter]:bg-concreto/70 border-b border-grafito/10">
-        <div className="mx-auto max-w-72 flex h-16 items-center justify-between px-4 sm:px-6 lg:px-8">
+        <Container className="flex h-16 items-center justify-between">
           {/* Logo */}
           <div className="flex shrink-0 items-center gap-2">
             <Link href="/" className="flex items-center gap-2" onClick={handleLinkClick}>
@@ -129,7 +130,7 @@ export function Navigation() {
               {isOpen ? "Cerrar menú" : "Abrir menú"}
             </Button>
           </div>
-        </div>
+        </Container>
 
         {/* Menú móvil */}
         {isMobileMenu && (
