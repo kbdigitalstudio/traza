@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { Logo } from "./Logo";
 import { Container } from "@/components/Container";
 import { buttonVariants } from "@/components/ui/button-variants";
@@ -26,15 +26,33 @@ function isActivePath(pathname: string, href: string) {
   return pathname === href || pathname.startsWith(`${href}/`);
 }
 
+/* Detección de hidratación sin setState dentro de un efecto. En el
+   servidor devuelve false; tras hidratar, true. */
+const subscribeToHydration = () => () => {};
+const getClientHydrated = () => true;
+const getServerHydrated = () => false;
+
 export function Navigation() {
   const pathname = usePathname();
   const isHome = pathname === "/";
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const mounted = useSyncExternalStore(
+    subscribeToHydration,
+    getClientHydrated,
+    getServerHydrated
+  );
   const menuRef = useRef<HTMLDivElement | null>(null);
   const buttonRef = useRef<HTMLButtonElement | null>(null);
 
-  const solid = !isHome || scrolled || isOpen;
+  /*
+   * En el HTML prerenderizado usePathname no puede resolver la ruta.
+   * El header arranca sólido (legible sobre fondo claro) y solo adopta
+   * el estado transparente del hero después de montarse en el cliente.
+   * Así el primer render coincide con el servidor y nunca queda texto
+   * claro sobre un fondo claro.
+   */
+  const solid = !mounted || !isHome || scrolled || isOpen;
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);

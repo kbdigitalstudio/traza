@@ -6,7 +6,7 @@ import { buttonVariants } from "@/components/ui/button-variants";
 export function Hero() {
   return (
     <section
-      className="relative flex min-h-[560px] overflow-hidden bg-grafito text-concreto md:min-h-[620px]"
+      className="relative -mt-16 flex min-h-[560px] overflow-hidden bg-grafito text-concreto md:min-h-[620px]"
       aria-labelledby="hero-titular"
     >
       <div className="absolute inset-0">

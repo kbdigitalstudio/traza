@@ -1,15 +1,11 @@
-"use client";
-
-import { usePathname } from "next/navigation";
 import type { ReactNode } from "react";
 
 /**
- * El header es fijo. La home arranca bajo el hero para permitir la
- * cabecera transparente; el resto de rutas reserva la altura del header.
+ * El header es fijo y siempre ocupa 4rem. Reservamos ese espacio de forma
+ * estática para todas las rutas: así evitamos que el padding dependa de
+ * usePathname y provoque saltos entre el HTML prerenderizado y el cliente.
+ * La home compensa este espacio con un margen negativo en su hero.
  */
 export function SiteOffset({ children }: { children: ReactNode }) {
-  const pathname = usePathname();
-  const isHome = pathname === "/";
-
-  return <div className={isHome ? undefined : "pt-16"}>{children}</div>;
+  return <div className="pt-16">{children}</div>;
 }
